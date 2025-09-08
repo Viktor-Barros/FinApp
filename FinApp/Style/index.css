@@ -1,0 +1,85 @@
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
+    }
+
+    body {
+      background-color: #C5C9CF; 
+      color: #c5c9cf; 
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-y: scroll;
+      min-height: 100vh; /* garante ocupar a tela toda */
+    }
+
+    
+    header {
+        position: absolute;
+        top: 20px;
+        left: 30px;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #6E2594; 
+        padding: 15px 30px;
+    }
+
+  
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex: 1; 
+      padding: 20px;
+    }
+
+    h1 {
+      font-family: opensans, sans-serif;  
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #000;
+    }
+
+
+    .index-container {
+      display: flex;
+      gap: 20px;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+    .index-cadastro {
+      background-color: #6E2594;
+      color: #d5caca;
+    }
+    .index-login {
+      background-color: #6E2594; 
+      color: #d5caca;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+    .rodapé {
+      background: #C5C9CF;
+      color: #000;
+      text-align: center;
+      padding: 15px;
+    }
+    
+    
+    
