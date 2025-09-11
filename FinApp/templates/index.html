@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-  <a href="index.html"><header>FinAPP</header></a>
+  <a href="{{ url_for('index') }}"><header>FinAPP</header></a>
   
   <main>
     <h1>Onde sua liberdade financeira começa!</h1>
     <div class="index-container">
-      <a href="cadastro.html"><button  class="index-cadastro">Cadastre-se</button></a>
-      <a href="login.html"><button  class="index-cadastro">Fazer Login</button></a>
+      <a href="{{ url_for('cadastro') }}"><button  class="index-cadastro">Cadastre-se</button></a>
+      <a href="{{ url_for('login') }}"><button  class="index-cadastro">Fazer Login</button></a>
     </div>
     <div class = "rodapé">
         <footer>
