@@ -15,16 +15,20 @@
       min-height: 100vh; /* garante ocupar a tela toda */
     }
 
-    
-    header {
-        position: absolute;
-        top: 20px;
-        left: 30px;
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #6E2594; 
-        padding: 15px 30px;
-    }
+       .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      max-width: 150px; 
+      padding: 0;
+      text-align: left;
+}
+
+      .logo img {
+      width: 100%;
+      height: auto;
+      display: block;
+}
 
   
     main {

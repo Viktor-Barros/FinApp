@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-  <a href="{{ url_for('index') }}"><header>FinAPP</header></a>
-  
+  <div class="logo">
+  <a href="{{ url_for('index') }}"><header><img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo">
+
+</header></a>
+  </div>
   <main>
     <h1>Onde sua liberdade financeira começa!</h1>
     <div class="index-container">
