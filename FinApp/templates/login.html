@@ -7,8 +7,8 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/loginCadastro.css') }}">
 </head>
 <body>
-  <a href="{{ url_for('index') }}"><header>FinAPP</header></a>
-
+  <div class="logo">
+  <a href="{{ url_for('index') }}"><header><img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo"></div>
   <div class="container">
     <h2>Login</h2>
     <form action="{{ url_for('login') }}" method="POST">
