@@ -1,29 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FinAPP</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <div class="logo">
-  <a href="{{ url_for('index') }}"><header><img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo">
+     <div class="logo">
+  <a href="index.html"><header><img src="logo.png" alt=""></header></a></div> 
+  <div class="container">
+    <!-- Lado Esquerdo -->
+    <div class="parteEsquerda">
+      <h1>
+        ONDE SUA VIDA FINACEIRA COMEÇA!<br>
+        
+      </h1>
+      <a href="cadastro.html"><button class="botaoCadastro">CADASTRE-SE JÁ!</button></a>
+    </div>
 
-</header></a>
+    <!-- Lado Direito -->
+    <div class="parteDireita">
+      <div class="login-container">
+        <h2>Login</h2>
+        <p>Preencha os campos abaixo com os seus dados de acesso.</p>
+        <form action="#" method="post">
+        <b><label for="email"> E-mail</label></b>
+        <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+        <b><label for="senha">Senha</label></b>
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+        <a href="dashboard.html"><b><button class="login-btn">Acessar</button></b></a>
+        </form>
+        <div class="recuperarsenha-link" >
+        <b><button><a href="recuperacaoSenha.html">Esqueci a senha</a></button></b>     
+        </div>
+      </div>
+    </div>
   </div>
-  <main>
-    <h1>Onde sua liberdade financeira começa!</h1>
-    <div class="index-container">
-      <a href="{{ url_for('cadastro') }}"><button  class="index-cadastro">Cadastre-se</button></a>
-      <a href="{{ url_for('login') }}"><button  class="index-cadastro">Fazer Login</button></a>
-    </div>
-    <div class = "rodapé">
-        <footer>
-            <p>©2025 - FinAPP. Todos os direitos reservados.</p>
-        </footer>
+  
+  
 
-    </div>
-  </main>
 </body>
 </html>

@@ -1,88 +1,166 @@
- * {
+
+    * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Arial", sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      background-color: #C5C9CF; 
-      color: #c5c9cf; 
+      height: 100vh;
       display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      overflow-y: scroll;
-      min-height: 100vh; /* garante ocupar a tela toda */
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #C5C9CF, #000);
+      color: #6E2594;
+    }
+     .logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    max-width: 200px; /* diminui o tamanho */
+    padding: 0;
+    text-align: left;
+}
+
+    .logo img {
+    width: 110%;
+    height: auto;
+    display: block;
+}
+
+
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100%;
     }
 
-       .logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      max-width: 150px; 
-      padding: 0;
-      text-align: left;
-}
-
-      .logo img {
-      width: 100%;
-      height: auto;
-      display: block;
-}
-
-  
-    main {
+    .parteEsquerda{
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center;
-      flex: 1; 
-      padding: 20px;
-    }
-
-    h1 {
-      font-family: opensans, sans-serif;  
-      font-size: 2rem;
-      margin-bottom: 30px;
-      color: #000;
-    }
-
-
-    .index-container {
-      display: flex;
-      gap: 20px;
-    }
-
-    button {
-      padding: 12px 30px;
-      font-size: 1rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.2s ease, background-color 0.3s ease;
-    }
-    .index-cadastro {
-      background-color: #6E2594;
-      color: #d5caca;
-    }
-    .index-login {
-      background-color: #6E2594; 
-      color: #d5caca;
-    }
-
-    .button:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
-    }
-    .rodapé {
+      padding: 40px;
       background: #C5C9CF;
-      color: #000;
+    }
+
+    .parteEsquerda h1 {
+      font-size: 45px;
+      font-weight: bold;
+      line-height: 1.3;
+      color: #6e2594;
+      font-family: 'Arial Black', sans-serif;
       text-align: center;
-      padding: 15px;
+    }
+
+    .botaoCadastro {
+      margin-top: 50px;
+      background: #6E2594;
+      color: #C5C9CF;
+      padding: 15px 28px;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .parteDireita{
+      flex: 1;
+      background:linear-gradient(1deg, #9a71b1, #6e2594); ;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 40px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 350px;
+      color: #d5caca;
+    }
+
+    .login-container h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #d5caca;
+    }
+
+    .login-container p {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #C5C9CF;
+    }
+    .login-container label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+      color: #d5caca;
+      font-family: Arial, sans-serif;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .login-container input::placeholder {
+      color: #d5caca;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+    .recuperarsenha-link a{
+      margin-bottom: 15px;
+      color: #d5caca;
+      padding: 10px;
+      width: 20% ;
+    }
+
+    .login-btn {
+      background: #6E2594;
+      color: #d5caca;
+      font-weight: bold;
+    }
+
+    .recuperarsenha-link a{
+      color: #d5caca;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .recuperarsenha-link button{
+      background: #6E2594;
+      border: none;
+      padding: 8px;
+      font: inherit;
+      cursor: pointer;
+      color: #6E2594;
+      text-decoration: underline;
     }
     
-    
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+      .left-section, .right-section {
+        flex: unset;
+        height: 50%;
+      }
+    }
     
