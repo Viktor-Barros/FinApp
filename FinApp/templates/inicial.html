@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - FinAPP</title>
+  <link rel="stylesheet" href="inicial.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    
+  <aside class="barralateral">
+    
+    <h2>FinAPP</h2> 
+    <ul>
+      <li><a href="#">Dashboard</a></li>
+      <li><a href="#">Receitas</a></li>
+      <li><a href="#">Despesas</a></li>
+
+    </ul>
+  </aside>
+
+
+  <main class="main">
+
+<header class="topo">
+  <h1>Bem-vindo!</h1>
+  <button class="nova-transacao">+ Nova Transação</button>
+</header>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Saldo Disponivel</h3>
+        <p>R$ 0,00</p>
+      </div>
+      <div class="card">
+        <h3>Receitas</h3>
+        <p>R$ 0,00</p>
+      </div>
+      <div class="card">
+        <h3>Despesas</h3>
+        <p>R$ 0,00</p>
+      </div>
+    </div>
+
+    <div class="transacoes">
+      <h3>Historico de Transações </h3>
+      <ul>
+        <li>Nenhuma transação ainda.</li>
+      </ul>
+    </div>
+
+    <div class="metas">
+  <h3>Minhas Metas</h3>
+  <ul>
+    <li>Nenhuma meta ainda. Clique em "+ Nova Meta" para adicionar.</li>
+  </ul>
+  <button class="novo-meta">+ Nova Meta</button>
+    </div>
+
+    <div class="chart-box-barras">
+        <canvas id="financialBarChart"></canvas>
+    </div>
+        <div class="chart-box-pizza">
+            <canvas id="pieChart"></canvas>
+        </div>
+
+  </main>
+
+</div>
+
+    <script>
+        const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'];
+        const coresPrincipais = [
+            'rgba(255, 99, 132, 0.8)', // Vermelho
+            'rgba(54, 162, 235, 0.8)',  // Azul
+            'rgba(255, 206, 86, 0.8)',  // Amarelo
+            'rgba(75, 192, 192, 0.8)',  // Verde
+            'rgba(153, 102, 255, 0.8)' // Roxo
+        ];
+        const coresBordas = coresPrincipais.map(cor => cor.replace('0.8', '1'));
+        const categorias = ['Alimentação', 'Moradia', 'Transporte', 'Lazer'];
+        const dadosReceita = [4500, 4500, 4500, 4500]; // Receita fixa simulada
+        const dadosDespesa = [1200, 1500, 800, 500];
+        const dadosSaldo = dadosReceita.map((receita, index) => receita - dadosDespesa[index]);
+
+        // CONFIGURAÇÃO DO GRÁFICO DE BARRAS AGRUPADAS
+        const chartData = {
+            labels: categorias,
+            datasets: [
+                {
+                    label: 'Receita (R$)',
+                    data: dadosReceita,
+                    backgroundColor: 'rgba(75, 192, 192, 0.8)', // Verde Água
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Despesa (R$)',
+                    data: dadosDespesa,
+                    backgroundColor: 'rgba(255, 99, 132, 0.8)', // Vermelho
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Saldo (R$)',
+                    data: dadosSaldo,
+                    backgroundColor: 'rgba(54, 162, 235, 0.8)', // Azul
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }
+            ]
+        };
+
+       const chartOptions = {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Valor (R$)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Categoria'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Comparativo Financeiro por Categoria'
+                }
+            }
+        };
+        new Chart(
+            document.getElementById('financialBarChart'),
+            {
+                type: 'bar',
+                data: chartData,
+                options: chartOptions
+            }
+        );
+// 2. CONFIGURAÇÃO DO GRÁFICO DE PIZZA
+
+        const pieData = {
+            labels: ['Salto', 'Receitas', 'Despesas'],
+            datasets: [{
+                label: 'Distribuição de Produtos',
+                data: [30, 25, 15], 
+                backgroundColor: coresPrincipais,
+                hoverOffset: 10
+            }]
+        };
+        
+        const pieOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: false,
+                }
+            }
+        };
+// Cria o Gráfico de Pizza
+        new Chart(
+            document.getElementById('pieChart'),
+            {
+                type: 'pie',
+                data: pieData,
+                options: pieOptions
+            }
+        );
+</script>
+
+</body>
+</html>
