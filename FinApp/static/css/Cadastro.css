@@ -60,13 +60,35 @@
 
 .cadastro-container button {
   width: 100%;
-  padding: 14px;
+  padding: 14px 28px;
   border: none;
-  border-radius: 12px;
+  border-radius: 30px;
   font-size: 16px;
   cursor: pointer;
   margin-top: 10px;
   background: #6E2594;
   color: #d5caca;
   font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.cadastro-container button:hover {
+  background: #7f2aa6;
+  transform: scale(1.05);
+}
+
+.cadastro-container a {
+    display: block;
+    margin: 10px auto 0 auto;
+    text-align: center;
+    color: #d5caca;
+    text-decoration: none;
+    font-weight: bold;
+    background: none;
+    font-size: 0.8rem;
+}
+
+.cadastro-container a:hover {
+    text-decoration: none;
+    transform: scale(1.05);
 }

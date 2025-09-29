@@ -66,6 +66,11 @@
       cursor: pointer;
     }
 
+    .botaoCadastro:hover {
+      text-decoration: none;
+      transform: scale(1.05);
+    }
+
     .parteDireita{
       flex: 1;
       background:linear-gradient(1deg, #9a71b1, #6e2594); ;
@@ -79,7 +84,7 @@
       padding: 40px;
       border-radius: 16px;
       width: 100%;
-      max-width: 350px;
+      max-width: 400px;
       color: #d5caca;
     }
 
@@ -118,12 +123,16 @@
 
     .login-container button {
       width: 100%;
-      padding: 14px;
+      padding: 14px 28px;
       border: none;
-      border-radius: 12px;
+      border-radius: 30px;
       font-size: 16px;
       cursor: pointer;
-      margin-bottom: 12px;
+      margin-top: 10px;
+      background: #6E2594;
+      color: #d5caca;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
     }
     .recuperarsenha-link a{
       margin-bottom: 15px;
@@ -138,21 +147,41 @@
       font-weight: bold;
     }
 
-    .recuperarsenha-link a{
+    .login-btn:hover {
+      text-decoration: none;
+      transform: scale(1.05);
+    }
+
+  .recuperarsenha-link {
+    text-align: center;
+    width: 75%;
+  }
+
+  .recuperarsenha-link a {
+      display: inline-block;
+      white-space: nowrap;
+      margin: 10px auto 0 auto;
       color: #d5caca;
       text-decoration: none;
-      font-size: 14px;
-    }
-    .recuperarsenha-link button{
-      background: #6E2594;
-      border: none;
-      padding: 8px;
-      font: inherit;
-      cursor: pointer;
-      color: #6E2594;
-      text-decoration: underline;
-    }
-    
+      font-weight: bold;
+      background: none;
+      font-size: 0.8rem;
+  }
+
+  .recuperarsenha-link a:hover {
+      text-decoration: none;
+      transform: scale(1.05);
+  }
+
+  .recuperarsenha-container {
+      flex: 1;
+      min-height: 100vh; 
+      width: 100%;    
+      background: #C5C9CF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  } 
 
     @media (max-width: 900px) {
       .container {

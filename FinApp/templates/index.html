@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FinAPP</title>
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-     <div class="logo">
-  <a href="index.html"><header><img src="logo.png" alt=""></header></a></div> 
+<div class="logo">
+  <a href="{{ url_for('index') }}"><header><img src="{{ url_for('static', filename='css/logo.png') }}" alt=""></header></a>
+</div> 
   <div class="container">
     <!-- Lado Esquerdo -->
     <div class="parteEsquerda">
@@ -16,7 +17,7 @@
         ONDE SUA VIDA FINACEIRA COMEÇA!<br>
         
       </h1>
-      <a href="cadastro.html"><button class="botaoCadastro">CADASTRE-SE JÁ!</button></a>
+      <a href="{{ url_for('cadastro_form') }}"><button class="botaoCadastro">CADASTRE-SE JÁ!</button></a>
     </div>
 
     <!-- Lado Direito -->
@@ -29,10 +30,10 @@
         <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
         <b><label for="senha">Senha</label></b>
         <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
-        <a href="dashboard.html"><b><button class="login-btn">Acessar</button></b></a>
+        <a href="home"><b><button class="login-btn">Acessar</button></b></a>
         </form>
         <div class="recuperarsenha-link" >
-        <b><button><a href="recuperacaoSenha.html">Esqueci a senha</a></button></b>     
+        <a href="recuperar-senha">Recuperar senha</a>     
         </div>
       </div>
     </div>

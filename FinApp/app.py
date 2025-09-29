@@ -45,7 +45,7 @@ def login():
 @app.route("/recuperar-senha", methods=["GET", "POST"])
 def recuperar_senha():
     if request.method == "GET":
-        return render_template("recuperacaoSenha.html")
+        return render_template("recuperar-senha.html")
     else:
         email = request.form["email"]
         conn = get_connection()
@@ -61,10 +61,15 @@ def recuperar_senha():
             # Exemplo de envio (não envia realmente, apenas simula)
             print(f"Enviar para {email}: Clique para recuperar sua senha: {link}")
             flash("Um link de recuperação foi enviado para seu e-mail.")
-            return render_template("recuperacaoSenha.html")
+            return render_template("recuperar-senha.html")
         else:
             flash("E-mail não encontrado.")
-            return render_template("recuperacaoSenha.html")
+            return render_template("recuperar-senha.html")
+        
+@app.route("/home", methods=["GET"])
+def home():
+    return render_template("home.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
+
