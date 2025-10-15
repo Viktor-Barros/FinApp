@@ -94,10 +94,9 @@ def login_form():
     conn.close()
 
     if usuario:
-        # Salva dados do usuário na sessão
-        session['user_id'] = usuario[0]
-        session['user_nome'] = usuario[1]
-        return redirect(url_for("home"))
+        session["user_id"] = usuario[0]
+        session["user_nome"] = usuario[1]
+        return redirect(url_for("home"))  # redireciona corretamente
     else:
         flash("Usuário ou senha incorretos.")
         return redirect(url_for("login_form"))
@@ -125,13 +124,13 @@ def recuperar_senha():
         return render_template("recuperar-senha.html")
 
 # ----------------- Home -----------------
-@app.route("/home", methods=["GET"])
+@app.route("/home")
 def home():
-    if 'user_id' not in session:
+    if "user_id" not in session:
         flash("Faça login para acessar a página Home.")
         return redirect(url_for("login_form"))
     
-    nome = session.get('user_nome')
+    nome = session.get("user_nome")
     return render_template("home.html", nome=nome)
 
 # ----------------- Logout -----------------

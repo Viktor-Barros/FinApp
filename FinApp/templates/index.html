@@ -25,12 +25,14 @@
       <div class="login-container">
         <h2>Login</h2>
         <p>Preencha os campos abaixo com os seus dados de acesso.</p>
-        <form action="#" method="post">
-        <b><label for="email"> E-mail</label></b>
-        <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
-        <b><label for="senha">Senha</label></b>
-        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
-        <a href="home"><b><button class="login-btn">Acessar</button></b></a>
+        <form action="{{ url_for('login_form') }}" method="post">
+            <b><label for="email">E-mail</label></b>
+            <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+
+            <b><label for="senha">Senha</label></b>
+            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+
+            <button type="submit" class="login-btn"><b>Acessar</b></button>
         </form>
         <div class="recuperarsenha-link" >
         <a href="recuperar-senha">Recuperar senha</a>     
