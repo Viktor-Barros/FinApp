@@ -27,60 +27,60 @@
 
         <!-- Aba Usuário -->
         <div id="usuario" class="tab-content active">
-          <form action="#" method="post">
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" placeholder="Digite seu nome" required>
-            
-            <label for="dataNasc">Data de Nascimento</label>
-            <input type="date" id="dataNasc" required>
+          <form action="{{ url_for('cadastro') }}" method="post">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
 
-            <label for="cpf">CPF</label>
-            <input type="text" id="cpf" placeholder="Digite seu CPF" required>
+          <label for="dataNasc">Data de Nascimento</label>
+          <input type="date" id="dataNasc" name="dataNasc" required>
 
-            <label for="emailUsuario">E-mail</label>
-            <input type="email" id="emailUsuario" placeholder="Digite seu e-mail" required>
+          <label for="cpf">CPF</label>
+          <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
 
-            <label for="senhaUsuario">Senha</label>
-            <input type="password" id="senhaUsuario" placeholder="Crie uma senha" required>
+          <label for="emailUsuario">E-mail</label>
+          <input type="email" id="emailUsuario" name="emailUsuario" placeholder="Digite seu e-mail" required>
 
-            <label for="renda">Renda Mensal</label>
-            <input type="number" id="renda" placeholder="Digite sua renda" required>
+          <label for="senhaUsuario">Senha</label>
+          <input type="password" id="senhaUsuario" name="senhaUsuario" placeholder="Crie uma senha" required>
 
-            <label for="profissao">Profissão</label>
-            <input type="text" id="profissao" placeholder="Digite sua profissão" required>
+          <label for="renda">Renda Mensal</label>
+          <input type="number" id="renda" name="renda" placeholder="Digite sua renda" required>
 
-            <label for="codigo">Código Consultor</label>
-            <input type="text" id="codigo" placeholder="Digite o código do consultor, 0 caso não tenha" required>
+          <label for="profissao">Profissão</label>
+          <input type="text" id="profissao" name="profissao" placeholder="Digite sua profissão" required>
 
-            <button type="submit">Cadastrar Usuário</button>
-            <a href="{{ url_for('index') }}">Já possuo conta</a>
-          </form>
+          <label for="codigo">Código Consultor</label>
+          <input type="text" id="codigo" name="codigo" placeholder="Digite o código do consultor, 0 caso não tenha" required>
+
+          <button type="submit">Cadastrar Usuário</button>
+          <a href="{{ url_for('login_form') }}">Já possuo conta</a>
+        </form>
         </div>
 
         <!-- Aba Consultor -->
         <div id="consultor" class="tab-content">
-          <form action="#" method="post">
-            <label for="responsavel">Nome do Responsável</label>
-            <input type="text" id="responsavel" placeholder="Digite o nome do responsável" required>
+          <form action="{{ url_for('cadastro_consultor') }}" method="post">
+          <label for="responsavel">Nome do Responsável</label>
+          <input type="text" id="responsavel" name="responsavel" placeholder="Digite o nome do responsável" required>
 
-            <label for="empresa">Nome da Empresa</label>
-            <input type="text" id="empresa" placeholder="Digite o nome da empresa" required>
+          <label for="empresa">Nome da Empresa</label>
+          <input type="text" id="empresa" name="empresa" placeholder="Digite o nome da empresa" required>
 
-            <label for="cnpj">CNPJ</label>
-            <input type="text" id="cnpj" placeholder="Digite o CNPJ" required>
+          <label for="cnpj">CNPJ</label>
+          <input type="text" id="cnpj" name="cnpj" placeholder="Digite o CNPJ" required>
 
-            <label for="ramo">Ramo da Empresa</label>
-            <input type="text" id="ramo" placeholder="Digite o ramo da empresa" required>
+          <label for="ramo">Ramo da Empresa</label>
+          <input type="text" id="ramo" name="ramo" placeholder="Digite o ramo da empresa" required>
 
-            <label for="emailConsultor">E-mail Corporativo</label>
-            <input type="email" id="emailConsultor" placeholder="Digite o e-mail corporativo" required>
+          <label for="emailConsultor">E-mail Corporativo</label>
+          <input type="email" id="emailConsultor" name="emailConsultor" placeholder="Digite o e-mail corporativo" required>
 
-            <label for="senhaConsultor">Senha</label>
-            <input type="password" id="senhaConsultor" placeholder="Crie uma senha" required>
+          <label for="senhaConsultor">Senha</label>
+          <input type="password" id="senhaConsultor" name="senhaConsultor" placeholder="Crie uma senha" required>
 
-            <button type="submit">Cadastrar Consultor</button>
-            <a href="{{ url_for('index') }}">Já possuo conta</a>
-          </form>
+          <button type="submit">Cadastrar Consultor</button>
+          <a href="{{ url_for('index') }}">Já possuo conta</a>
+        </form>
         </div>
       </div>
     </div>
