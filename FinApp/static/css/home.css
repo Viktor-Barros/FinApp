@@ -2,13 +2,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  display: flex;
-  height: 100vh;
-  background-color: #f5f5f5;
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color:  #C5C9CF;
+    min-height: 100vh;
+
 }
 
 .logo img {
@@ -29,8 +30,8 @@ body {
 
 .barralateral h2 {
   margin-bottom: 20px;
-  padding-top: 360px;
-  font-size: 35p;
+  padding-top: 30px;
+  font-size: 35px;
   padding-left: 20px;
 }
 
@@ -47,7 +48,7 @@ body {
 
 .barralateral ul li a {
   color: #ffff;
-  text-decoration:solid
+  text-decoration: none;
 }
 
 .main {
@@ -78,26 +79,6 @@ body {
 .card h3 {
   margin-bottom: 10px;
 
-}
-
-.transacoes {
-  background-color: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.transacoes ul {
-  list-style: none;
-}
-
-.transacoes li {
-  padding: 8px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.transacoes li:last-child {
-  border-bottom: none;
 }
 
 .metas {
@@ -160,7 +141,7 @@ body {
   border-radius: 10px;
   cursor: pointer
 }
-
+ 
 .nova-transacao:hover {
   background-color: #592075;
 }
@@ -173,13 +154,62 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-.chart-box-pizza {
-  width: 400px;
-  margin: 40px;
-  margin-bottom: 600px;
-  margin-left: 680px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  margin-top: -370px;
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.fechar {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+.oculto {
+  display: none;
+}
+
+/* --- Estilo do Botão Sair na Barra Superior --- */
+.btn-sair {
+    /* Faz parecer um botão ou link discreto */
+    text-decoration: none;
+    color: var(--cor-texto-secundario); /* Cinza suave */
+    padding: 8px 15px;
+   margin-top: 700px; 
+    /* Garante que o texto e o ícone fiquem alinhados */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-sair i {
+    /* Cor do ícone */
+    color: var(--cor-gasto); /* Sugerido vermelho para ação de sair/logout */
+}
+
+.btn-sair:hover {
+    color: var(--cor-texto-principal); /* Fica mais claro ao passar o mouse */
+    background-color: #383838; /* Um fundo sutil para destacar */
 }

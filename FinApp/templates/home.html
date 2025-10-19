@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - FinAPP</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="home.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    
+
   <aside class="barralateral">
-    
     <h2>FinAPP</h2> 
     <ul>
-      <li><a href="#">Dashboard</a></li>
-      <li><a href="#">Receitas</a></li>
-      <li><a href="#">Despesas</a></li>
-
+      <li><a href="home.html">Dashboard</a></li>
+      <li><a href="transações.html">Transações</a></li>
     </ul>
+    <div class="user-info">
+        <i class="fas fa-bell notification-icon"></i>
+        <a href="index.html" id="btn-sair" class="btn-sair">
+          <i class="fas fa-sign-out-alt"></i> Sair</a>
+        <div class="user-avatar"></div>
+    </div>
+</header>
   </aside>
 
-
   <main class="main">
-
-<header class="topo">
-  <h1>Bem-vindo(a), {{ nome }}!</h1>
-  <button class="nova-transacao">+ Nova Transação</button>
-</header>
+    <header class="topo">
+      <h1>Bem-vindo(a), Usuário!</h1>
+    </header>
 
     <div class="cards">
       <div class="card">
-        <h3>Saldo Disponivel</h3>
+        <h3>Saldo Disponível</h3>
         <p>R$ 0,00</p>
       </div>
       <div class="card">
@@ -43,34 +44,49 @@
       </div>
     </div>
 
-    <div class="transacoes">
-      <h3>Historico de Transações </h3>
-      <ul>
-        <li>Nenhuma transação ainda.</li>
-      </ul>
-    </div>
+   
 
     <div class="metas">
-  <h3>Minhas Metas</h3>
-  <ul>
-    <li>Nenhuma meta ainda. Clique em "+ Nova Meta" para adicionar.</li>
-  </ul>
-  <button class="novo-meta">+ Nova Meta</button>
+      <h3>Minhas Metas</h3>
+      <ul>
+        <li>Nenhuma meta ainda. Clique em "+ Nova Meta" para adicionar.</li>
+      </ul>
+      <button class="novo-meta">+ Nova Meta</button>
     </div>
 
     <div class="chart-box-barras">
-        <canvas id="financialBarChart"></canvas>
+      <canvas id="financialBarChart"></canvas>
     </div>
-        <div class="chart-box-pizza">
-            <canvas id="pieChart"></canvas>
-        </div>
 
   </main>
 
-</div>
+  <div id="modal-transacao" class="modal oculto">
+    <div class="modal-content">
+      <span id="fechar-modal" class="fechar">&times;</span>
+      <h2>Nova Transação</h2>
+      <form id="form-transacao">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" required>
+          <option value="receita">Receita</option>
+          <option value="despesa">Despesa</option>
+        </select>
 
-    <script>
-        const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'];
+        <label for="categoria">Categoria:</label>
+        <select id="categoria" required>
+          <option value="Alimentação">Alimentação</option>
+          <option value="Moradia">Moradia</option>
+          <option value="Transporte">Transporte</option>
+          <option value="Lazer">Lazer</option>
+        </select>
+
+        <button type="submit">Salvar</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    //inicio grafico
+    const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'];
         const coresPrincipais = [
             'rgba(255, 99, 132, 0.8)', // Vermelho
             'rgba(54, 162, 235, 0.8)',  // Azul
@@ -84,7 +100,6 @@
         const dadosDespesa = [1200, 1500, 800, 500];
         const dadosSaldo = dadosReceita.map((receita, index) => receita - dadosDespesa[index]);
 
-        // CONFIGURAÇÃO DO GRÁFICO DE BARRAS AGRUPADAS
         const chartData = {
             labels: categorias,
             datasets: [
@@ -147,39 +162,63 @@
                 options: chartOptions
             }
         );
-// 2. CONFIGURAÇÃO DO GRÁFICO DE PIZZA
+//fim grafico
 
-        const pieData = {
-            labels: ['Salto', 'Receitas', 'Despesas'],
-            datasets: [{
-                label: 'Distribuição de Produtos',
-                data: [30, 25, 15], 
-                backgroundColor: coresPrincipais,
-                hoverOffset: 10
-            }]
-        };
-        
-        const pieOptions = {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: false,
-                }
-            }
-        };
-// Cria o Gráfico de Pizza
-        new Chart(
-            document.getElementById('pieChart'),
-            {
-                type: 'pie',
-                data: pieData,
-                options: pieOptions
-            }
-        );
-</script>
+const botaoNovaTransacao = document.querySelector('.nova-transacao');
+const modalTransacao = document.getElementById('modal-transacao');
+const fecharModal = document.getElementById('fechar-modal');
 
+const formTransacao = document.getElementById('form-transacao');
+const listaTransacoes = document.querySelector('.transacoes ul');
+const saldoCard = document.querySelector('.cards .card:nth-child(1) p');
+const receitasCard = document.querySelector('.cards .card:nth-child(2) p');
+const despesasCard = document.querySelector('.cards .card:nth-child(3) p');
+
+let totalReceitas = 0;
+let totalDespesas = 0;
+
+botaoNovaTransacao.addEventListener('click', () => {
+  modalTransacao.classList.remove('oculto');
+});
+
+fecharModal.addEventListener('click', () => {
+  modalTransacao.classList.add('oculto');
+  formTransacao.reset();
+});
+
+formTransacao.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  const tipo = document.getElementById('tipo').value;
+  const categoria = document.getElementById('categoria').value;
+  const valor = parseFloat(document.getElementById('valor').value);
+
+  const novaLi = document.createElement('li');
+  novaLi.textContent = `${tipo === 'receita' ? 'Receita' : 'Despesa'} - ${categoria}: R$ ${valor.toFixed(2)}`;
+
+  if(listaTransacoes.querySelector('li').textContent === 'Nenhuma transação ainda.') {
+    listaTransacoes.innerHTML = ''; // Limpa a mensagem padrão
+  }
+  listaTransacoes.appendChild(novaLi);
+
+  if (tipo === 'receita') {
+    totalReceitas += valor;
+  } else {
+    totalDespesas += valor;
+  }
+
+  const saldo = totalReceitas - totalDespesas;
+
+  receitasCard.textContent = `R$ ${totalReceitas.toFixed(2)}`;
+  despesasCard.textContent = `R$ ${totalDespesas.toFixed(2)}`;
+  saldoCard.textContent = `R$ ${saldo.toFixed(2)}`;
+
+  modalTransacao.classList.add('oculto');
+  formTransacao.reset();
+});
+
+
+
+  </script>
 </body>
 </html>

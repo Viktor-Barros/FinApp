@@ -1,0 +1,215 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color:  #C5C9CF;
+    min-height: 100vh;
+
+}
+
+.logo img {
+    width: 110%;
+    height: auto;
+    display: block;
+}
+
+.barralateral {
+  width: 200px;
+  background-color: #6c2594;
+  color: white;
+  padding: 20px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+
+}
+
+.barralateral h2 {
+  margin-bottom: 20px;
+  padding-top: 30px;
+  font-size: 35px;
+  padding-left: 20px;
+}
+
+.barralateral ul {
+  list-style: none;
+  padding-left: 20px;
+  font-size: 20px;
+}
+
+.barralateral ul li {
+  margin-bottom: 35px;
+
+}
+
+.barralateral ul li a {
+  color: #ffff;
+  text-decoration: none;
+}
+
+.main {
+  flex: 1;
+  padding: 22px;
+}
+
+.main h1 {
+  margin-bottom: 20px;
+
+}
+
+.cards {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  flex: 1;
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+
+}
+
+.metas {
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+.metas h3 {
+  margin-bottom: 10px;
+}
+
+.metas ul {
+  list-style: none;
+  padding: 0;
+}
+
+.metas li {
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.metas li:last-child {
+  border-bottom: none;
+}
+
+.novo-meta {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #6c2594;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer
+}
+
+.nova-meta:hover {
+  background-color: #592075;
+}
+
+.topo {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 20px;
+}
+
+.nova-transacao li:last-child {
+    border-bottom: none;
+}
+
+.nova-transacao {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #6c2594;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer
+}
+ 
+.nova-transacao:hover {
+  background-color: #592075;
+}
+
+/*graficos*/
+.chart-box-barras {
+  width: 600px;
+  margin: 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.fechar {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+.oculto {
+  display: none;
+}
+
+/* --- Estilo do Botão Sair na Barra Superior --- */
+.btn-sair {
+    /* Faz parecer um botão ou link discreto */
+    text-decoration: none;
+    color: var(--cor-texto-secundario); /* Cinza suave */
+    padding: 8px 15px;
+   margin-top: 700px; 
+    /* Garante que o texto e o ícone fiquem alinhados */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-sair i {
+    /* Cor do ícone */
+    color: var(--cor-gasto); /* Sugerido vermelho para ação de sair/logout */
+}
+
+.btn-sair:hover {
+    color: var(--cor-texto-principal); /* Fica mais claro ao passar o mouse */
+    background-color: #383838; /* Um fundo sutil para destacar */
+}

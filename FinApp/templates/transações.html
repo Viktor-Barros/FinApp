@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transações - FinanceHub Pro</title>
+    <link rel="stylesheet" href="style-transacoes.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <aside class="barralateral">
+        <h2>FinAPP</h2> 
+        <ul>
+        <li><a href="home.html">Dashboard</a></li>
+        <li><a href="transações.html">Transações</a></li>
+        </ul>
+    </aside>
+<main class="transacoes-page">
+
+        <header class="page-header">
+            
+            <div>
+                <h1>Transações</h1>
+                <p class="subtitle">Gerencie todas suas movimentações financeiras</p>
+            </div>
+        </header>
+        
+        
+
+        <section class="acoes-transacoes">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar transações...">
+            </div>
+            <button class="btn-nova-transacao">
+                <i class="fas fa-plus"></i> Nova Transação
+            </button>
+        </section>
+
+        <section class="metricas-transacoes">
+            
+            <div class="card-metrica card-receita">
+                <div class="header-card">
+                    <i class="fas fa-arrow-up icon-receita"></i>
+                    <h3>Total Receitas</h3>
+                </div>
+                <p class="valor-principal">R$ 9.785,50</p>
+                <p class="variacao-positiva">+12.3% vs mês anterior</p>
+            </div>
+            
+            <div class="card-metrica card-gasto">
+                <div class="header-card">
+                    <i class="fas fa-arrow-down icon-gasto"></i>
+                    <h3>Total Gastos</h3>
+                </div>
+                <p class="valor-principal">R$ 5.529,80</p>
+                <p class="variacao-negativa">-5.2% vs mês anterior</p>
+            </div>
+            
+            <div class="card-metrica card-investimento">
+                <div class="header-card">
+                    <i class="fas fa-chart-line icon-investimento"></i>
+                    <h3>Investimentos</h3>
+                </div>
+                <p class="valor-principal">R$ 1.000,00</p>
+                <p class="meta-atingida">Meta mensal atingida</p>
+            </div>
+            
+        </section>
+
+        <section class="lista-transacoes-box">
+            
+            <div class="lista-header">
+                <h2>Todas as Transações</h2>
+                <div class="lista-acoes">
+                    <i class="fas fa-download icon-action"></i>
+                    <i class="fas fa-filter icon-action"></i>
+                </div>
+            </div>
+
+            <ul class="lista-transacoes">
+                
+                <li class="transacao receita">
+                    <div class="icone-tipo tipo-receita"><i class="fas fa-briefcase"></i></div>
+                    <div class="detalhes">
+                        <span class="nome">Salário Principal</span>
+                        <span class="sub-detalhe">Trabalho • 2024-01-15</span>
+                    </div>
+                    <div class="valor-box">
+                        <span class="valor valor-receita">+R$ 8.500,00</span>
+                        <span class="tag tag-receita">Receita</span>
+                    </div>
+                </li>
+
+                <li class="transacao gasto">
+                    <div class="icone-tipo tipo-gasto"><i class="fas fa-home"></i></div>
+                    <div class="detalhes">
+                        <span class="nome">Aluguel Apartamento</span>
+                        <span class="sub-detalhe">Moradia • 2024-01-14</span>
+                    </div>
+                    <div class="valor-box">
+                        <span class="valor valor-gasto">R$ 2.200,00</span>
+                        <span class="tag tag-gasto">Gasto</span>
+                    </div>
+                </li>
+
+                </ul>
+        </section>
+
+    </main>
+    
+    <div id="modal-transacao" class="modal oculto">
+        <div class="modal-content">
+            <span id="fechar-modal" class="fechar">&times;</span>
+            <h2>Adicionar Nova Transação</h2>
+            <form id="form-transacao">
+                
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" required placeholder="Ex: Salário, Aluguel, Supermercado">
+
+                <label for="valor">Valor (R$):</label>
+                <input type="number" id="valor" step="0.01" min="0.01" required placeholder="1500.00">
+
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" required>
+                    <option value="receita">Receita</option>
+                    <option value="gasto">Gasto</option>
+                    <option value="investimento">Investimento</option>
+                </select>
+
+                <label for="categoria">Categoria:</label>
+                <select id="categoria" required>
+                    <option value="Trabalho">Trabalho</option>
+                    <option value="Moradia">Moradia</option>
+                    <option value="Alimentação">Alimentação</option>
+                    <option value="Investimentos">Investimentos</option>
+                    <option value="Outros">Outros</option>
+                </select>
+                
+                <label for="data">Data:</label>
+                <input type="date" id="data" required>
+
+                <button type="submit">Salvar Transação</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // 1. Seleção de Elementos
+        const btnNovaTransacao = document.querySelector('.btn-nova-transacao');
+        const modalTransacao = document.getElementById('modal-transacao');
+        const fecharModal = document.getElementById('fechar-modal');
+        const formTransacao = document.getElementById('form-transacao');
+        const listaTransacoes = document.querySelector('.lista-transacoes'); 
+
+        // 2. Funções de Abertura e Fechamento
+        btnNovaTransacao.addEventListener('click', () => {
+            modalTransacao.classList.remove('oculto');
+            document.getElementById('data').valueAsDate = new Date(); // Preenche a data de hoje
+        });
+
+        fecharModal.addEventListener('click', () => {
+            modalTransacao.classList.add('oculto');
+            formTransacao.reset();
+        });
+
+        // Fechar Modal ao clicar fora
+        window.addEventListener('click', (event) => {
+            if (event.target === modalTransacao) {
+                modalTransacao.classList.add('oculto');
+                formTransacao.reset();
+            }
+        });
+
+
+        // 3. Lógica de Submissão do Formulário e Adição ao Histórico
+        formTransacao.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // 3a. Coletar dados
+            const descricao = document.getElementById('descricao').value;
+            const valor = parseFloat(document.getElementById('valor').value).toFixed(2);
+            const tipo = document.getElementById('tipo').value;
+            const categoria = document.getElementById('categoria').value;
+            const data = document.getElementById('data').value;
+            
+            // Formatar data: YYYY-MM-DD
+            const dataDisplay = data;
+            
+            // 3b. Determinar estilos e ícones
+            let tipoClasse;
+            let tipoIcone;
+            let valorPrefix = (tipo === 'receita') ? '+' : '';
+            let tagNome = (tipo.charAt(0).toUpperCase() + tipo.slice(1)); 
+            
+            if (tipo === 'receita') {
+                tipoClasse = 'receita';
+                tipoIcone = 'fas fa-briefcase';
+            } else if (tipo === 'gasto') {
+                tipoClasse = 'gasto';
+                tipoIcone = (categoria === 'Moradia') ? 'fas fa-home' : 'fas fa-shopping-cart';
+            } else { // investimento
+                tipoClasse = 'investimento';
+                tipoIcone = 'fas fa-chart-line';
+            }
+            
+            // 3c. Criar o novo elemento <li> (Transação)
+            const novoItemHTML = `
+                <li class="transacao ${tipoClasse}">
+                    <div class="icone-tipo tipo-${tipoClasse}"><i class="${tipoIcone}"></i></div>
+                    <div class="detalhes">
+                        <span class="nome">${descricao}</span>
+                        <span class="sub-detalhe">${categoria} • ${dataDisplay}</span>
+                    </div>
+                    <div class="valor-box">
+                        <span class="valor valor-${tipoClasse}">${valorPrefix}R$ ${valor.replace('.', ',')}</span>
+                        <span class="tag tag-${tipoClasse}">${tagNome}</span>
+                    </div>
+                </li>
+            `;
+
+            // 3d. Adicionar ao topo do histórico
+            listaTransacoes.insertAdjacentHTML('afterbegin', novoItemHTML);
+
+            // 3e. Fechar o Modal e resetar o formulário
+            modalTransacao.classList.add('oculto');
+            formTransacao.reset();
+        });
+
+    </script>
+</body>
+</html>

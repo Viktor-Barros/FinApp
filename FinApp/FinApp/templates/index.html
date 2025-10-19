@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinAPP</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<div class="logo">
+  <a href="{{ url_for('index') }}"><header><img src="{{ url_for('static', filename='css/logo.png') }}" alt=""></header></a>
+</div> 
+  <div class="container">
+    <!-- Lado Esquerdo -->
+    <div class="parteEsquerda">
+      <h1>
+        ONDE SUA VIDA FINACEIRA COMEÇA!<br>
+        
+      </h1>
+      <a href="{{ url_for('cadastro_form') }}"><button class="botaoCadastro">CADASTRE-SE JÁ!</button></a>
+    </div>
+
+    <!-- Lado Direito -->
+    <div class="parteDireita">
+      <div class="login-container">
+        <h2>Login</h2>
+        <p>Preencha os campos abaixo com os seus dados de acesso.</p>
+        <form action="{{ url_for('login_form') }}" method="post">
+            <b><label for="email">E-mail</label></b>
+            <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+
+            <b><label for="senha">Senha</label></b>
+            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+
+            <button type="submit" class="login-btn"><b>Acessar</b></button>
+        </form>
+        <div class="recuperarsenha-link" >
+        <a href="recuperar-senha">Recuperar senha</a>     
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+</body>
+</html>
