@@ -1,0 +1,94 @@
+.cadastro-container {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 450px;
+  color: #d5caca;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 12px 12px 0 0;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.tab.active {
+  background: #6E2594;
+  color: #fff;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.cadastro-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #d5caca;
+}
+
+.cadastro-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.cadastro-container input::placeholder {
+  color: #d5caca;
+}
+
+.cadastro-container button {
+  width: 100%;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  background: #6E2594;
+  color: #d5caca;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.cadastro-container button:hover {
+  background: #7f2aa6;
+  transform: scale(1.05);
+}
+
+.cadastro-container a {
+    display: block;
+    margin: 10px auto 0 auto;
+    text-align: center;
+    color: #d5caca;
+    text-decoration: none;
+    font-weight: bold;
+    background: none;
+    font-size: 0.8rem;
+}
+
+.cadastro-container a:hover {
+    text-decoration: none;
+    transform: scale(1.05);
+}
