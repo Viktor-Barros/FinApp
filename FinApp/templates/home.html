@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - FinAPP</title>
-<link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -12,12 +12,12 @@
   <aside class="barralateral">
     <h2>FinAPP</h2> 
     <ul>
-      <li><a href="home.html">Dashboard</a></li>
-      <li><a href="transações.html">Transações</a></li>
+      <li><a href="{{ url_for('home') }}">Dashboard</a></li>
+      <li><a href="{{ url_for('transacoes') }}">Transações</a></li>
     </ul>
     <div class="user-info">
         <i class="fas fa-bell notification-icon"></i>
-        <a href="index.html" id="btn-sair" class="btn-sair">
+        <a href="{{ url_for('index') }}" id="btn-sair" class="btn-sair">
           <i class="fas fa-sign-out-alt"></i> Sair</a>
         <div class="user-avatar"></div>
     </div>
