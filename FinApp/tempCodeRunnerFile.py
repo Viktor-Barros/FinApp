@@ -133,15 +133,6 @@ def home():
     nome = session.get("user_nome")
     return render_template("home.html", nome=nome)
 
-@app.route("/transacoes")
-def transacoes():
-    if "user_id" not in session:
-        flash("Faça login para acessar as transações.")
-        return redirect(url_for("login_form"))
-
-    # Apenas renderiza o template
-    return render_template("transacoes.html")
-
 # ----------------- Logout -----------------
 @app.route("/logout")
 def logout():
@@ -151,4 +142,3 @@ def logout():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
