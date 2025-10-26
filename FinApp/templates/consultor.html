@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard do Consultor - FinAPP</title>
+  <link rel="stylesheet" href="consultor.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Consultor</h2>
+    <ul>
+      <li data-section="dashboard" class="active">Dashboard</li>
+      <li data-section="clientes">Clientes</li>
+      <li data-section="financas">Finanças</li>
+      <li data-section="relatorios">Relatórios</li>
+      <li data-section="chat">Chat</li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <h1>Visão Geral</h1>
+      <div class="user-info">
+        <p>Bem-vindo, <strong>Consultor!</strong></p>
+      </div>
+    </header>
+
+    <!-- Dashboard -->
+
+    <section class="cards" id="dashboard">
+      <div class="card">
+        <h3>Total de Clientes</h3>
+        <p id="clientes-total">0</p>
+      </div>
+      <div class="card">
+        <h3>Receita Total</h3>
+        <p id="receita-total">R$ 0,00</p>
+      </div>
+      <div class="card">
+        <h3>Despesas Totais</h3>
+        <p id="despesas-total">R$ 0,00</p>
+      </div>
+    </section>
+
+    <!-- Clientes -->
+
+    <section class="clientes-section" id="clientes" style="display:none;">
+      <h2>Histórico de Clientes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Salário</th>
+            <th>Despesa</th>
+            <th>Saldo</th>
+            <th>Ações</th>
+            <th>Metas</th>
+          </tr>
+        </thead>
+        <tbody id="clientes-lista">
+
+          <!-- Exemplo de clientes automáticos -->
+
+          <tr>
+            <td>Maria Oliveira</td>
+            <td>R$ 5.000,00</td>
+            <td>R$ 2.000,00</td>
+            <td class="positivo">R$ 3.000,00</td>
+            <td><button class="btn-chat">Chat</button></td>
+            <td>Economizar R$ 10.000</td>
+          </tr>
+          <tr>
+            <td>João Pereira</td>
+            <td>R$ 4.200,00</td>
+            <td>R$ 3.800,00</td>
+            <td class="positivo">R$ 400,00</td>
+            <td><button class="btn-chat">Chat</button></td>
+            <td>Quitar dívidas</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Finanças -->
+
+    <section class="financas-section" id="financas" style="display:none;">
+      <h2>Finanças</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Lucro Líquido</h3>
+          <p id="lucro-liquido">R$ 0,00</p>
+        </div>
+        <div class="card">
+          <h3>Receitas (mês atual)</h3>
+          <p id="receita-mensal">R$ 0,00</p>
+        </div>
+        <div class="card">
+          <h3>Despesas (mês atual)</h3>
+          <p id="despesa-mensal">R$ 0,00</p>
+        </div>
+      </div>
+      <div class="grafico-placeholder">
+        <p>Gráfico financeiro em desenvolvimento...</p>
+      </div>
+    </section>
+
+    <!-- Relatórios -->
+
+    <section class="relatorios-section" id="relatorios" style="display:none;">
+      <h2>Relatórios</h2>
+      <div class="card">
+        <h3>Relatórios Mensais</h3>
+        <p>Visualize os resultados financeiros por período ou cliente.</p>
+        <button class="btn-desativado" disabled>Gerar Relatório (em breve)</button>
+      </div>
+      <div class="card">
+        <h3>Desempenho dos Clientes</h3>
+        <p>Acompanhe o crescimento financeiro de cada cliente.</p>
+        <button class="btn-desativado" disabled>Ver Análise (em breve)</button>
+      </div>
+    </section>
+
+    <!-- Chat -->
+
+    <section class="chat-section" id="chat" style="display:none;">
+      <h2>Chat</h2>
+      <div class="chat-container">
+        <aside class="lista-clientes-chat" id="lista-clientes-chat"></aside>
+        <div class="chat-area">
+          <div class="chat-header" id="chat-header">Selecione um cliente</div>
+          <div class="chat-box" id="chat-box">
+            <div class="msg sistema">Nenhum chat selecionado</div>
+          </div>
+          <div class="chat-input">
+            <input type="text" id="msg-input" placeholder="Digite uma mensagem..." disabled>
+            <button id="enviar-msg" disabled>Enviar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Navegação 
+    
+
+    const sidebarItems = document.querySelectorAll('.sidebar ul li');
+    const sections = {
+      dashboard: document.getElementById('dashboard'),
+      clientes: document.getElementById('clientes'),
+      financas: document.getElementById('financas'),
+      relatorios: document.getElementById('relatorios'),
+      chat: document.getElementById('chat')
+    };
+
+    function mostrarSecao(sec) {
+      Object.values(sections).forEach(s => s.style.display = 'none');
+      sections[sec].style.display = 'block';
+    }
+
+    sidebarItems.forEach(item => {
+      item.addEventListener('click', () => {
+        sidebarItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        mostrarSecao(item.dataset.section);
+      });
+    });
+
+    mostrarSecao('dashboard');
+
+    //Chat e Clientes
+    const clientesLista = document.getElementById('clientes-lista');
+    const listaClientesChat = document.getElementById('lista-clientes-chat');
+    const chatBox = document.getElementById('chat-box');
+    const chatHeader = document.getElementById('chat-header');
+    const msgInput = document.getElementById('msg-input');
+    const enviarMsgBtn = document.getElementById('enviar-msg');
+
+    const chats = {};
+    let clienteAtual = null;
+
+    // Inicializa lista de clientes no chat
+    document.querySelectorAll('#clientes-lista tr').forEach(tr => {
+      const nome = tr.children[0].textContent;
+      const clienteChat = document.createElement('div');
+      clienteChat.classList.add('cliente-item');
+      clienteChat.dataset.nome = nome;
+      clienteChat.innerHTML = `<strong>${nome}</strong><br><small>Nenhuma mensagem</small>`;
+      listaClientesChat.appendChild(clienteChat);
+
+      chats[nome] = [];
+
+      tr.querySelector('.btn-chat').addEventListener('click', () => abrirChat(nome));
+      clienteChat.addEventListener('click', () => abrirChat(nome));
+    });
+
+    function abrirChat(nome) {
+      clienteAtual = nome;
+      chatHeader.textContent = `Chat com ${nome}`;
+      msgInput.disabled = false;
+      enviarMsgBtn.disabled = false;
+      atualizarChat();
+
+      sidebarItems.forEach(i => i.classList.remove('active'));
+      document.querySelector('.sidebar ul li[data-section="chat"]').classList.add('active');
+      mostrarSecao('chat');
+    }
+
+    function atualizarChat() {
+      chatBox.innerHTML = '';
+      if (chats[clienteAtual].length === 0) {
+        chatBox.innerHTML = '<div class="msg sistema">Nenhuma mensagem</div>';
+      } else {
+        chats[clienteAtual].forEach(m => {
+          const div = document.createElement('div');
+          div.classList.add('msg');
+          div.innerHTML = `<strong>${m.de}:</strong> ${m.texto}`;
+          chatBox.appendChild(div);
+        });
+      }
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function enviarMensagem() {
+      const msg = msgInput.value.trim();
+      if (!msg || !clienteAtual) return;
+
+      chats[clienteAtual].push({ de: 'Consultor', texto: msg });
+      atualizarChat();
+      msgInput.value = '';
+    }
+
+    enviarMsgBtn.addEventListener('click', enviarMensagem);
+    msgInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        enviarMensagem();
+      }
+    });
+
+    // Atualiza Dashboard
+    function atualizarDashboard() {
+      const trs = clientesLista.querySelectorAll('tr');
+      let totalClientes = 0, totalReceita = 0, totalDespesa = 0;
+      trs.forEach(tr => {
+        totalClientes++;
+        totalReceita += parseFloat(tr.children[1].textContent.replace(/\D/g, '') || 0) / 100;
+        totalDespesa += parseFloat(tr.children[2].textContent.replace(/\D/g, '') || 0) / 100;
+      });
+      document.getElementById('clientes-total').textContent = totalClientes;
+      document.getElementById('receita-total').textContent = `R$ ${totalReceita.toLocaleString('pt-BR')}`;
+      document.getElementById('despesas-total').textContent = `R$ ${totalDespesa.toLocaleString('pt-BR')}`;
+    }
+    atualizarDashboard();
+  </script>
+</body>
+</html>
