@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash, redirect, url_for, session
+from flask import Flask, request, render_template, flash, redirect, url_for, session, jsonify
 from db import get_connection
 
 app = Flask(__name__)
@@ -124,25 +124,136 @@ def recuperar_senha():
         return render_template("recuperar-senha.html")
 
 # ----------------- Home -----------------
-@app.route("/home")
-def home():
-    if "user_id" not in session:
-        flash("Faça login para acessar a página Home.")
-        return redirect(url_for("login_form"))
-    
-    nome = session.get("user_nome")
-    return render_template("home.html", nome=nome)
 
-@app.route("/transacoes")
+@app.route('/home')
+def home():
+    if 'user_id' not in session:
+        return redirect(url_for('login_form'))  # redireciona se não estiver logado
+
+    id_usuario = session['user_id']
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    # Pega todas as transações do usuário logado
+    cursor.execute("SELECT tipo, categoria, valor FROM TB_Transacao WHERE id_usuario = ?", (id_usuario,))
+    transacoes = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    # Calcula totais
+    total_receitas = float(sum(t[2] for t in transacoes if t[0] == 'receita'))
+    total_despesas = float(sum(t[2] for t in transacoes if t[0] == 'gasto'))
+    saldo_disponivel = total_receitas - total_despesas
+
+    # Para gráfico por categoria (opcional)
+    categorias = sorted(list(set([t[1] for t in transacoes])))
+    dados_receita = [sum(t[2] for t in transacoes if t[1] == c and t[0] == 'receita') for c in categorias]
+    dados_despesa = [sum(t[2] for t in transacoes if t[1] == c and t[0] == 'gasto') for c in categorias]
+    dados_saldo = [r - d for r, d in zip(dados_receita, dados_despesa)]
+
+    return render_template(
+        "home.html",
+        user_nome=session.get("user_nome", "Usuário"),
+        total_receitas=total_receitas,
+        total_despesas=total_despesas,
+        saldo_disponivel=saldo_disponivel,
+        categorias=categorias,
+        dados_receita=dados_receita,
+        dados_despesa=dados_despesa,
+        dados_saldo=dados_saldo
+    )
+
+
+# ----------------- Transações -----------------
+
+@app.route("/transacoes", methods=["GET", "POST"])
 def transacoes():
+    # Verifica se o usuário está logado
     if "user_id" not in session:
         flash("Faça login para acessar as transações.")
         return redirect(url_for("login_form"))
 
-    # Apenas renderiza o template
-    return render_template("transacoes.html")
+    conn = get_connection()
+    cursor = conn.cursor()
 
-# ----------------- Logout -----------------
+    # --- POST: salvar nova transação via AJAX ---
+    if request.method == "POST":
+        data = request.get_json()
+        if not data:
+            return jsonify({"status": "erro", "mensagem": "Dados inválidos"}), 400
+
+        descricao = data.get("descricao")
+        valor = data.get("valor")
+        tipo = data.get("tipo")
+        categoria = data.get("categoria")
+        data_transacao = data.get("data")
+        user_id = session["user_id"]
+
+        try:
+            cursor.execute("""
+                INSERT INTO TB_Transacao (descricao, tipo, categoria, valor, data_transacao, id_usuario)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (descricao, tipo, categoria, float(valor), data_transacao, user_id))
+            conn.commit()
+
+            # Retorna JSON para o JS atualizar a tela
+            return jsonify({
+                "status": "ok",
+                "transacao": {
+                    "descricao": descricao,
+                    "valor": float(valor),
+                    "tipo": tipo,
+                    "categoria": categoria,
+                    "data": data_transacao
+                }
+            })
+
+        except Exception as e:
+            conn.rollback()
+            return jsonify({"status": "erro", "mensagem": str(e)}), 500
+
+        finally:
+            cursor.close()
+            conn.close()
+
+    # --- GET: listar transações ---
+    try:
+        cursor.execute("""
+            SELECT descricao, tipo, categoria, valor, data_transacao
+            FROM TB_Transacao
+            WHERE id_usuario = ?
+            ORDER BY data_transacao DESC
+        """, (session["user_id"],))
+        transacoes = cursor.fetchall()
+
+        total_receita = sum(t[3] for t in transacoes if t[1] == "receita")
+        total_gasto = sum(t[3] for t in transacoes if t[1] == "gasto")
+        total_investimento = sum(t[3] for t in transacoes if t[1] == "investimento")
+
+    except Exception as e:
+        flash(f"Erro ao carregar transações: {e}")
+        transacoes = []
+        total_receita = total_gasto = total_investimento = 0
+
+    finally:
+        cursor.close()
+        conn.close()
+
+    return render_template(
+        "transacoes.html",
+        transacoes=transacoes,
+        total_receita=total_receita,
+        total_gasto=total_gasto,
+        total_investimento=total_investimento
+    )
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+# ----------------- Logout ----------------
 @app.route("/logout")
 def logout():
     session.clear()

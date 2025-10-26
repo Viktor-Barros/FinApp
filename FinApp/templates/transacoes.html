@@ -11,21 +11,20 @@
     <aside class="barralateral">
         <h2>FinAPP</h2> 
         <ul>
-        <li><a href="{{ url_for('home') }}">Dashboard</a></li>
-        <li><a href="{{ url_for('transacoes') }}">Transações</a></li>
+            <li><a href="{{ url_for('home') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('transacoes') }}">Transações</a></li>
         </ul>
     </aside>
-<main class="transacoes-page">
+
+    <main class="transacoes-page">
 
         <header class="page-header">
-            
             <div>
                 <h1>Transações</h1>
                 <p class="subtitle">Gerencie todas suas movimentações financeiras</p>
             </div>
+
         </header>
-        
-        
 
         <section class="acoes-transacoes">
             <div class="search-box">
@@ -38,38 +37,39 @@
         </section>
 
         <section class="metricas-transacoes">
-            
+
             <div class="card-metrica card-receita">
                 <div class="header-card">
                     <i class="fas fa-arrow-up icon-receita"></i>
                     <h3>Total Receitas</h3>
                 </div>
-                <p class="valor-principal">R$ 9.785,50</p>
+                <p class="valor-principal">R$ {{ total_receita|float|round(2) }}</p>
                 <p class="variacao-positiva">+12.3% vs mês anterior</p>
+
             </div>
-            
+
             <div class="card-metrica card-gasto">
                 <div class="header-card">
                     <i class="fas fa-arrow-down icon-gasto"></i>
                     <h3>Total Gastos</h3>
                 </div>
-                <p class="valor-principal">R$ 5.529,80</p>
+                <p class="valor-principal">R$ {{ total_gasto|float|round(2) }}</p>
                 <p class="variacao-negativa">-5.2% vs mês anterior</p>
             </div>
-            
+
             <div class="card-metrica card-investimento">
                 <div class="header-card">
                     <i class="fas fa-chart-line icon-investimento"></i>
                     <h3>Investimentos</h3>
                 </div>
-                <p class="valor-principal">R$ 1.000,00</p>
+                <p class="valor-principal">R$ {{ total_investimento|float|round(2) }}</p>
                 <p class="meta-atingida">Meta mensal atingida</p>
             </div>
-            
+
         </section>
 
         <section class="lista-transacoes-box">
-            
+
             <div class="lista-header">
                 <h2>Todas as Transações</h2>
                 <div class="lista-acoes">
@@ -79,154 +79,127 @@
             </div>
 
             <ul class="lista-transacoes">
-                
-                <li class="transacao receita">
-                    <div class="icone-tipo tipo-receita"><i class="fas fa-briefcase"></i></div>
+                {% for t in transacoes %}
+                    {% set descricao = t[0] %}
+                    {% set tipo = t[1] %}
+                    {% set categoria = t[2] %}
+                    {% set valor = t[3]|float %}
+                    {% set data = t[4] %}
+                    {% set tipoClasse = tipo %}
+                    {% set tipoIcone = "fas fa-briefcase" if tipo=="receita" else ("fas fa-home" if categoria=="Moradia" else "fas fa-shopping-cart") %}
+                    {% set valorPrefix = "+" if tipo=="receita" else "" %}
+                    {% set tagNome = tipo.capitalize() %}
+                <li class="transacao {{ tipoClasse }}">
+                    <div class="icone-tipo tipo-{{ tipoClasse }}"><i class="{{ tipoIcone }}"></i></div>
                     <div class="detalhes">
-                        <span class="nome">Salário Principal</span>
-                        <span class="sub-detalhe">Trabalho • 2024-01-15</span>
+                        <span class="nome">{{ descricao }}</span>
+                        <span class="sub-detalhe">{{ categoria }} • {{ data }}</span>
                     </div>
                     <div class="valor-box">
-                        <span class="valor valor-receita">+R$ 8.500,00</span>
-                        <span class="tag tag-receita">Receita</span>
+                        <span class="valor valor-{{ tipoClasse }}">{{ valorPrefix }}R$ {{ "%.2f"|format(valor) }}</span>
+                        <span class="tag tag-{{ tipoClasse }}">{{ tagNome }}</span>
                     </div>
                 </li>
-
-                <li class="transacao gasto">
-                    <div class="icone-tipo tipo-gasto"><i class="fas fa-home"></i></div>
-                    <div class="detalhes">
-                        <span class="nome">Aluguel Apartamento</span>
-                        <span class="sub-detalhe">Moradia • 2024-01-14</span>
-                    </div>
-                    <div class="valor-box">
-                        <span class="valor valor-gasto">R$ 2.200,00</span>
-                        <span class="tag tag-gasto">Gasto</span>
-                    </div>
-                </li>
-
-                </ul>
+                {% endfor %}
+            </ul>
         </section>
 
     </main>
-    
+
     <div id="modal-transacao" class="modal oculto">
         <div class="modal-content">
             <span id="fechar-modal" class="fechar">&times;</span>
             <h2>Adicionar Nova Transação</h2>
-            <form id="form-transacao">
-                
+            <form id="form-transacao" method="POST" action="/transacoes">
                 <label for="descricao">Descrição:</label>
-                <input type="text" id="descricao" required placeholder="Ex: Salário, Aluguel, Supermercado">
+                <input type="text" id="descricao" name="descricao" required placeholder="Ex: Salário, Aluguel, Supermercado">
 
                 <label for="valor">Valor (R$):</label>
-                <input type="number" id="valor" step="0.01" min="0.01" required placeholder="1500.00">
+                <input type="number" id="valor" name="valor" step="0.01" min="0.01" required placeholder="1500.00">
 
                 <label for="tipo">Tipo:</label>
-                <select id="tipo" required>
+                <select id="tipo" name="tipo" required>
                     <option value="receita">Receita</option>
                     <option value="gasto">Gasto</option>
                     <option value="investimento">Investimento</option>
                 </select>
 
                 <label for="categoria">Categoria:</label>
-                <select id="categoria" required>
+                <select id="categoria" name="categoria" required>
                     <option value="Trabalho">Trabalho</option>
                     <option value="Moradia">Moradia</option>
                     <option value="Alimentação">Alimentação</option>
                     <option value="Investimentos">Investimentos</option>
                     <option value="Outros">Outros</option>
                 </select>
-                
+
                 <label for="data">Data:</label>
-                <input type="date" id="data" required>
+                <input type="date" id="data" name="data" required>
 
                 <button type="submit">Salvar Transação</button>
             </form>
         </div>
     </div>
-    
-    <script>
-        // 1. Seleção de Elementos
-        const btnNovaTransacao = document.querySelector('.btn-nova-transacao');
-        const modalTransacao = document.getElementById('modal-transacao');
-        const fecharModal = document.getElementById('fechar-modal');
-        const formTransacao = document.getElementById('form-transacao');
-        const listaTransacoes = document.querySelector('.lista-transacoes'); 
 
-        // 2. Funções de Abertura e Fechamento
-        btnNovaTransacao.addEventListener('click', () => {
-            modalTransacao.classList.remove('oculto');
-            document.getElementById('data').valueAsDate = new Date(); // Preenche a data de hoje
-        });
+<script>
+    const btnNovaTransacao = document.querySelector('.btn-nova-transacao');
+    const modalTransacao = document.getElementById('modal-transacao');
+    const fecharModal = document.getElementById('fechar-modal');
+    const formTransacao = document.getElementById('form-transacao');
+    const listaTransacoes = document.querySelector('.lista-transacoes');
 
-        fecharModal.addEventListener('click', () => {
-            modalTransacao.classList.add('oculto');
-            formTransacao.reset();
-        });
+    // Abrir/fechar modal
+    btnNovaTransacao.addEventListener('click', () => modalTransacao.classList.remove('oculto'));
+    fecharModal.addEventListener('click', () => modalTransacao.classList.add('oculto'));
 
-        // Fechar Modal ao clicar fora
-        window.addEventListener('click', (event) => {
-            if (event.target === modalTransacao) {
-                modalTransacao.classList.add('oculto');
-                formTransacao.reset();
-            }
-        });
+    // Envio via AJAX
+    formTransacao.addEventListener('submit', function(e) {
+        e.preventDefault(); // evita reload
 
+        const data = new FormData(formTransacao);
+        const jsonData = Object.fromEntries(data.entries());
 
-        // 3. Lógica de Submissão do Formulário e Adição ao Histórico
-        formTransacao.addEventListener('submit', function(event) {
-            event.preventDefault();
+        fetch('/transacoes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(jsonData)
+        })
+        .then(res => res.json())
+        .then(res => {
+            if(res.status === "ok") {
+                // Adiciona a transação na lista sem recarregar a página
+                const t = res.transacao;
 
-            // 3a. Coletar dados
-            const descricao = document.getElementById('descricao').value;
-            const valor = parseFloat(document.getElementById('valor').value).toFixed(2);
-            const tipo = document.getElementById('tipo').value;
-            const categoria = document.getElementById('categoria').value;
-            const data = document.getElementById('data').value;
-            
-            // Formatar data: YYYY-MM-DD
-            const dataDisplay = data;
-            
-            // 3b. Determinar estilos e ícones
-            let tipoClasse;
-            let tipoIcone;
-            let valorPrefix = (tipo === 'receita') ? '+' : '';
-            let tagNome = (tipo.charAt(0).toUpperCase() + tipo.slice(1)); 
-            
-            if (tipo === 'receita') {
-                tipoClasse = 'receita';
-                tipoIcone = 'fas fa-briefcase';
-            } else if (tipo === 'gasto') {
-                tipoClasse = 'gasto';
-                tipoIcone = (categoria === 'Moradia') ? 'fas fa-home' : 'fas fa-shopping-cart';
-            } else { // investimento
-                tipoClasse = 'investimento';
-                tipoIcone = 'fas fa-chart-line';
-            }
-            
-            // 3c. Criar o novo elemento <li> (Transação)
-            const novoItemHTML = `
-                <li class="transacao ${tipoClasse}">
-                    <div class="icone-tipo tipo-${tipoClasse}"><i class="${tipoIcone}"></i></div>
+                const li = document.createElement('li');
+                li.classList.add('transacao', t.tipo);
+
+                let tipoIcone = "fas fa-briefcase";
+                if(t.tipo === "gasto") tipoIcone = (t.categoria === "Moradia") ? "fas fa-home" : "fas fa-shopping-cart";
+                if(t.tipo === "investimento") tipoIcone = "fas fa-chart-line";
+
+                li.innerHTML = `
+                    <div class="icone-tipo tipo-${t.tipo}"><i class="${tipoIcone}"></i></div>
                     <div class="detalhes">
-                        <span class="nome">${descricao}</span>
-                        <span class="sub-detalhe">${categoria} • ${dataDisplay}</span>
+                        <span class="nome">${t.descricao}</span>
+                        <span class="sub-detalhe">${t.categoria} • ${t.data}</span>
                     </div>
                     <div class="valor-box">
-                        <span class="valor valor-${tipoClasse}">${valorPrefix}R$ ${valor.replace('.', ',')}</span>
-                        <span class="tag tag-${tipoClasse}">${tagNome}</span>
+                        <span class="valor valor-${t.tipo}">${t.tipo==="receita" ? "+" : ""}R$ ${t.valor.toFixed(2)}</span>
+                        <span class="tag tag-${t.tipo}">${t.tipo.charAt(0).toUpperCase() + t.tipo.slice(1)}</span>
                     </div>
-                </li>
-            `;
+                `;
 
-            // 3d. Adicionar ao topo do histórico
-            listaTransacoes.insertAdjacentHTML('afterbegin', novoItemHTML);
+                listaTransacoes.prepend(li); // adiciona no topo
+                modalTransacao.classList.add('oculto'); // fecha modal
+                formTransacao.reset(); // limpa formulário
+            } else {
+                alert("Erro ao salvar: " + res.mensagem);
+            }
+        })
+        .catch(err => console.error(err));
+    });
 
-            // 3e. Fechar o Modal e resetar o formulário
-            modalTransacao.classList.add('oculto');
-            formTransacao.reset();
-        });
+</script>
 
-    </script>
 </body>
 </html>
