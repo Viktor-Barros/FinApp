@@ -81,25 +81,47 @@ def cadastro_consultor():
 def login_form():
     if request.method == "GET":
         return render_template("index.html")
-    
+
     # POST - autenticação
     email = request.form.get("email")
     senha = request.form.get("senha")
 
     conn = get_connection()
     cursor = conn.cursor()
+
+    # Verifica na tabela de usuários
     cursor.execute("SELECT id_usuario, nome FROM TB_Usuario WHERE email = ? AND senha = ?", (email, senha))
     usuario = cursor.fetchone()
-    cursor.close()
-    conn.close()
 
     if usuario:
         session["user_id"] = usuario[0]
         session["user_nome"] = usuario[1]
-        return redirect(url_for("home"))  # redireciona corretamente
-    else:
-        flash("Usuário ou senha incorretos.")
-        return redirect(url_for("login_form"))
+        session["user_tipo"] = "usuario"
+
+        cursor.close()
+        conn.close()
+
+        # Redireciona para /home (muda o caminho da URL)
+        return redirect(url_for("home"))
+
+    # Verifica na tabela de consultores
+    cursor.execute("SELECT id_consultor, nome FROM TB_Consultor WHERE email = ? AND senha = ?", (email, senha))
+    consultor = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if consultor:
+        session["user_id"] = consultor[0]
+        session["user_nome"] = consultor[1]
+        session["user_tipo"] = "consultor"
+
+        # Redireciona para /consultor (muda o caminho da URL)
+        return redirect(url_for("consultor"))
+
+    # Se não achou em nenhuma das tabelas
+    flash("Usuário ou senha incorretos.")
+    return redirect(url_for("login_form"))
 
 # ----------------- Recuperar senha -----------------
 @app.route("/recuperar-senha", methods=["GET", "POST"])
@@ -122,6 +144,34 @@ def recuperar_senha():
         else:
             flash("E-mail não encontrado.")
         return render_template("recuperar-senha.html")
+
+# ----------------- Consultor ----------------
+
+
+@app.route('/consultor')
+def consultor():
+    # Supondo que você salvou o nome do usuário na sessão ao logar
+    from flask import session
+    nome_usuario = session.get('user_nome', 'Usuário')
+
+    return render_template('consultor.html', user_nome=nome_usuario)
+
+
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    # Busca todas as transações junto com o nome dos usuários
+    cursor.execute("""
+        SELECT u.nome, t.tipo, t.categoria, t.valor
+        FROM TB_Transacao t
+        JOIN TB_Usuario u ON t.id_usuario = u.id_usuario
+    """)
+    transacoes = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("consultor.html", transacoes=transacoes)
 
 # ----------------- Home -----------------
 

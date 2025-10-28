@@ -4,29 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - FinAPP</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
   <aside class="barralateral">
-    <h2>FinAPP</h2> 
+    <div class="logo">
+            <a href="{{ url_for('home') }}"><header><img src="{{ url_for('static', filename='css/logo.png') }}" alt=""></header></a>
+    </div>  
     <ul>
       <li><a href="{{ url_for('home') }}">Dashboard</a></li>
       <li><a href="{{ url_for('transacoes') }}">Transações</a></li>
-    </ul>
-    <div class="user-info">
+      <div class="user-info">
         <i class="fas fa-bell notification-icon"></i>
         <a href="{{ url_for('index') }}" id="btn-sair" class="btn-sair">
-          <i class="fas fa-sign-out-alt"></i> Sair</a>
+        <i class="fas fa-sign-out-alt"></i> Sair</a>
         <div class="user-avatar"></div>
-    </div>
+      </div>
+    </ul>
+    
 </header>
   </aside>
 
   <main class="main">
     <header class="topo">
-      <h1>Bem-vindo(a), {{ user_nome }}!</h1>
+      <h1>Bem-vindo(a), <strong>{{ user_nome }}!</strong></h1>
     </header>
 
 
