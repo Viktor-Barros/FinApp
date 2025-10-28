@@ -147,6 +147,7 @@ def recuperar_senha():
 
 # ----------------- Consultor ----------------
 
+<<<<<<< HEAD
 
 @app.route('/consultor')
 def consultor():
@@ -156,6 +157,12 @@ def consultor():
 
     return render_template('consultor.html', user_nome=nome_usuario)
 
+=======
+@app.route('/consultor')
+def consultor():
+    if 'user_id' not in session:
+        return redirect(url_for('login_form'))
+>>>>>>> a47fdad9c5885e69e5dd863c3b17f7b3d343775d
 
     conn = get_connection()
     cursor = conn.cursor()
