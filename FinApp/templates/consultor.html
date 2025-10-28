@@ -4,17 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard do Consultor - FinAPP</title>
-  <link rel="stylesheet" href="consultor.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/consultor.css') }}">
 </head>
 <body>
   <div class="sidebar">
-    <h2>Consultor</h2>
+    <div class="logo">
+            <a href="{{ url_for('home') }}"><header><img src="{{ url_for('static', filename='css/logo.png') }}" alt=""></header></a>
+    </div> 
     <ul>
       <li data-section="dashboard" class="active">Dashboard</li>
       <li data-section="clientes">Clientes</li>
-      <li data-section="financas">Finanças</li>
       <li data-section="relatorios">Relatórios</li>
       <li data-section="chat">Chat</li>
+        <div class="user-info">
+          <i class="fas fa-bell notification-icon"></i>
+          <a href="{{ url_for('index') }}" id="btn-sair" class="btn-sair">
+          <i class="fas fa-sign-out-alt"></i> Sair</a>
+          <div class="user-avatar"></div>
+      </div>
     </ul>
   </div>
 
@@ -22,134 +29,103 @@
     <header>
       <h1>Visão Geral</h1>
       <div class="user-info">
-        <p>Bem-vindo, <strong>Consultor!</strong></p>
+        <p>Bem-vindo, <strong>{{ user_nome }}!</strong></p>
       </div>
     </header>
 
     <!-- Dashboard -->
 
     <section class="cards" id="dashboard">
-      <div class="card">
-        <h3>Total de Clientes</h3>
-        <p id="clientes-total">0</p>
-      </div>
-      <div class="card">
-        <h3>Receita Total</h3>
-        <p id="receita-total">R$ 0,00</p>
-      </div>
-      <div class="card">
-        <h3>Despesas Totais</h3>
-        <p id="despesas-total">R$ 0,00</p>
-      </div>
-    </section>
-
-    <!-- Clientes -->
-
-    <section class="clientes-section" id="clientes" style="display:none;">
-      <h2>Histórico de Clientes</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Salário</th>
-            <th>Despesa</th>
-            <th>Saldo</th>
-            <th>Ações</th>
-            <th>Metas</th>
-          </tr>
-        </thead>
-        <tbody id="clientes-lista">
-
-          <!-- Exemplo de clientes automáticos -->
-
-          <tr>
-            <td>Maria Oliveira</td>
-            <td>R$ 5.000,00</td>
-            <td>R$ 2.000,00</td>
-            <td class="positivo">R$ 3.000,00</td>
-            <td><button class="btn-chat">Chat</button></td>
-            <td>Economizar R$ 10.000</td>
-          </tr>
-          <tr>
-            <td>João Pereira</td>
-            <td>R$ 4.200,00</td>
-            <td>R$ 3.800,00</td>
-            <td class="positivo">R$ 400,00</td>
-            <td><button class="btn-chat">Chat</button></td>
-            <td>Quitar dívidas</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- Finanças -->
-
-    <section class="financas-section" id="financas" style="display:none;">
-      <h2>Finanças</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>Lucro Líquido</h3>
-          <p id="lucro-liquido">R$ 0,00</p>
-        </div>
-        <div class="card">
-          <h3>Receitas (mês atual)</h3>
-          <p id="receita-mensal">R$ 0,00</p>
-        </div>
-        <div class="card">
-          <h3>Despesas (mês atual)</h3>
-          <p id="despesa-mensal">R$ 0,00</p>
-        </div>
-      </div>
-      <div class="grafico-placeholder">
-        <p>Gráfico financeiro em desenvolvimento...</p>
-      </div>
-    </section>
-
-    <!-- Relatórios -->
-
-    <section class="relatorios-section" id="relatorios" style="display:none;">
-      <h2>Relatórios</h2>
-      <div class="card">
-        <h3>Relatórios Mensais</h3>
-        <p>Visualize os resultados financeiros por período ou cliente.</p>
-        <button class="btn-desativado" disabled>Gerar Relatório (em breve)</button>
-      </div>
-      <div class="card">
-        <h3>Desempenho dos Clientes</h3>
-        <p>Acompanhe o crescimento financeiro de cada cliente.</p>
-        <button class="btn-desativado" disabled>Ver Análise (em breve)</button>
-      </div>
-    </section>
-
-    <!-- Chat -->
-
-    <section class="chat-section" id="chat" style="display:none;">
-      <h2>Chat</h2>
-      <div class="chat-container">
-        <aside class="lista-clientes-chat" id="lista-clientes-chat"></aside>
-        <div class="chat-area">
-          <div class="chat-header" id="chat-header">Selecione um cliente</div>
-          <div class="chat-box" id="chat-box">
-            <div class="msg sistema">Nenhum chat selecionado</div>
-          </div>
-          <div class="chat-input">
-            <input type="text" id="msg-input" placeholder="Digite uma mensagem..." disabled>
-            <button id="enviar-msg" disabled>Enviar</button>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="card">
+    <h3>Total de Clientes</h3>
+    <p id="clientes-total">0</p>
   </div>
+  <div class="card">
+    <h3>Receita Total</h3>
+    <p id="receita-total">R$ 0,00</p>
+  </div>
+  <div class="card">
+    <h3>Despesas Totais</h3>
+    <p id="despesas-total">R$ 0,00</p>
+  </div>
+</section>
+
+<!-- Clientes -->
+<section class="clientes-section" id="clientes" style="display:none;">
+  <h2>Histórico de Clientes</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Salário</th>
+        <th>Despesa</th>
+        <th>Saldo</th>
+        <th>Ações</th>
+        <th>Metas</th>
+      </tr>
+    </thead>
+    <tbody id="clientes-lista">
+      <tr>
+        <td>Maria Oliveira</td>
+        <td>R$ 5.000,00</td>
+        <td>R$ 2.000,00</td>
+        <td class="positivo">R$ 3.000,00</td>
+        <td><button class="btn-chat">Chat</button></td>
+        <td>Economizar R$ 10.000</td>
+      </tr>
+      <tr>
+        <td>João Pereira</td>
+        <td>R$ 4.200,00</td>
+        <td>R$ 3.800,00</td>
+        <td class="positivo">R$ 400,00</td>
+        <td><button class="btn-chat">Chat</button></td>
+        <td>Quitar dívidas</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Relatórios -->
+<section class="relatorios-section" id="relatorios" style="display:none;">
+  <h2>Relatórios</h2>
+  <div class="card">
+    <h3>Relatórios Mensais</h3>
+    <p>Visualize os resultados financeiros por período ou cliente.</p>
+    <button class="btn-desativado" disabled>Gerar Relatório (em breve)</button>
+  </div>
+  <div class="card">
+    <h3>Desempenho dos Clientes</h3>
+    <p>Acompanhe o crescimento financeiro de cada cliente.</p>
+    <button class="btn-desativado" disabled>Ver Análise (em breve)</button>
+  </div>
+</section>
+
+<!-- Chat -->
+<section class="chat-section" id="chat" style="display:none;">
+  <h2>Chat</h2>
+  <div class="chat-container">
+    <aside class="lista-clientes-chat" id="lista-clientes-chat"></aside>
+    <div class="chat-area">
+      <div class="chat-header" id="chat-header">Selecione um cliente</div>
+      <div class="chat-box" id="chat-box">
+        <div class="msg sistema">Nenhum chat selecionado</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="msg-input" placeholder="Digite uma mensagem..." disabled>
+        <button id="enviar-msg" disabled>Enviar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 
   <script>
     // Navegação 
-    
 
     const sidebarItems = document.querySelectorAll('.sidebar ul li');
     const sections = {
       dashboard: document.getElementById('dashboard'),
       clientes: document.getElementById('clientes'),
-      financas: document.getElementById('financas'),
       relatorios: document.getElementById('relatorios'),
       chat: document.getElementById('chat')
     };
