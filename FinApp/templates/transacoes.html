@@ -3,17 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transações - FinanceHub Pro</title>
+    <title>Transações - FinApp</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style-transacoes.css') }}"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <aside class="barralateral">
-        <h2>FinAPP</h2> 
+        <div class="logo">
+            <a href="{{ url_for('home') }}"><header><img src="{{ url_for('static', filename='css/logo.png') }}" alt=""></header></a>
+        </div>  
         <ul>
             <li><a href="{{ url_for('home') }}">Dashboard</a></li>
             <li><a href="{{ url_for('transacoes') }}">Transações</a></li>
+            <div class="user-info">
+                <i class="fas fa-bell notification-icon"></i>
+                <a href="{{ url_for('index') }}" id="btn-sair" class="btn-sair">
+                <i class="fas fa-sign-out-alt"></i> Sair</a>
+                <div class="user-avatar"></div>
+            </div>
         </ul>
+        
     </aside>
 
     <main class="transacoes-page">

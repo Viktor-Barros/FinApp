@@ -11,6 +11,12 @@ body {
   min-height: 100vh;
 }
 
+.logo img {
+    width: 110%;
+    height: auto;
+    display: block;
+}
+
 .sidebar {
   width: 220px;
   background-color: #6c2594;
@@ -461,4 +467,26 @@ tbody tr:nth-child(even) {
     width: 100%;
     height: 60%;
   }
+}
+
+.btn-sair {
+    /* Faz parecer um botão ou link discreto */
+    text-decoration: none;
+    color: var(--cor-texto-secundario); /* Cinza suave */
+    padding: 8px 15px;
+   margin-top: 400px; 
+    /* Garante que o texto e o ícone fiquem alinhados */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-sair i {
+    /* Cor do ícone */
+    color: var(--cor-gasto); /* Sugerido vermelho para ação de sair/logout */
+}
+
+.btn-sair:hover {
+    color: var(--cor-texto-principal); /* Fica mais claro ao passar o mouse */
+    background-color: #383838; /* Um fundo sutil para destacar */
 }
