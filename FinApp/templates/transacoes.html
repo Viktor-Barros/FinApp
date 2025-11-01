@@ -201,11 +201,17 @@
                 listaTransacoes.prepend(li); // adiciona no topo
                 modalTransacao.classList.add('oculto'); // fecha modal
                 formTransacao.reset(); // limpa formulário
+
+                // Exibe confirmação
+                alert('Transação salva com sucesso!');
             } else {
                 alert("Erro ao salvar: " + res.mensagem);
             }
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+            console.error(err);
+            alert('Erro ao conectar com o servidor.');
+        });
     });
 
 </script>

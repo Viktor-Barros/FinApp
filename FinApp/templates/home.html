@@ -1,162 +1,204 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard - FinAPP</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - FinAPP</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-  <aside class="barralateral">
-    <div class="logo">
-            <a href="{{ url_for('home') }}"><header><img src="{{ url_for('static', filename='css/logo.png') }}" alt=""></header></a>
-    </div>  
-    <ul>
-      <li><a href="{{ url_for('home') }}">Dashboard</a></li>
-      <li><a href="{{ url_for('transacoes') }}">Transações</a></li>
-      <div class="user-info">
-        <i class="fas fa-bell notification-icon"></i>
-        <a href="{{ url_for('index') }}" id="btn-sair" class="btn-sair">
-        <i class="fas fa-sign-out-alt"></i> Sair</a>
-        <div class="user-avatar"></div>
-      </div>
-    </ul>
-    
-</header>
-  </aside>
+<aside class="barralateral">
+  <div class="logo">
+    <a href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo FinAPP">
+    </a>
+  </div>
 
-  <main class="main">
-    <header class="topo">
-      <h1>Bem-vindo(a), <strong>{{ user_nome }}!</strong></h1>
-    </header>
+  <ul>
+    <li><a href="{{ url_for('home') }}">Dashboard</a></li>
+    <li><a href="{{ url_for('transacoes') }}">Transações</a></li>
+  </ul>
+
+  <div class="user-info">
+    <i class="fas fa-bell notification-icon"></i>
+    <a href="{{ url_for('index') }}" id="btn-sair" class="btn-sair">
+      <i class="fas fa-sign-out-alt"></i> Sair
+    </a>
+    <div class="user-avatar"></div>
+  </div>
+</aside>
 
 
-    <div class="cards">
-    <div class="card">
-        <h3>Receitas</h3>
-        <p>R$ {{ total_receitas | float | round(2) }}</p>
-    </div>
-    <div class="card">
-        <h3>Despesas</h3>
-        <p>R$ {{ total_despesas | float | round(2) }}</p>
-    </div>
+
+  <main class="main">
+    <header class="topo">
+      <h1>Bem-vindo(a), <strong>{{ user_nome }}!</strong></h1>
+    </header>
+
+
+    <div class="cards">
+    <div class="card">
+        <h3>Receitas</h3>
+        <p>R$ {{ total_receitas | float | round(2) }}</p>
+    </div>
+    <div class="card">
+        <h3>Despesas</h3>
+        <p>R$ {{ total_despesas | float | round(2) }}</p>
+    </div>
 </div>
 
-    <div class="metas">
-      <h3>Minhas Metas</h3>
-      <ul>
-        <li>Nenhuma meta ainda. Clique em "+ Nova Meta" para adicionar.</li>
-      </ul>
-      <button class="novo-meta">+ Nova Meta</button>
-    </div>
+    <div class="metas">
+    <h3>Minhas Metas</h3>
+      <ul id="lista-metas"> 
+        {% if metas %}
+            {% for meta in metas %}
+            <li data-id="{{ meta[0] }}">
+                <strong>{{ meta[0] }}</strong>: R$ {{ meta[1]|float|round(2) }} (Progresso: R$ {{ meta[2]|float|round(2) }} / Prazo: {{ meta[3] }})
+            </li>
+            {% endfor %}
+        {% else %}
+            <li>Nenhuma meta ainda. Clique em "+ Nova Meta" para adicionar.</li>
+        {% endif %}
+      </ul>
+      <button class="novo-meta">+ Nova Meta</button>
+</div>
 
     <div class="chart-box-barras">
-      <canvas id="financialBarChart"></canvas>
-    </div>
+      <canvas id="financialBarChart"></canvas>
+    </div>
+      </main>
 
-  </main>
+  <div class="modal oculto" id="modal-meta">
+      <div class="modal-content">
+          <span class="fechar-modal" id="fechar-meta">&times;</span>
+          <h2>Definir Nova Meta Financeira</h2>
+          <form id="form-meta" method="POST" action="{{ url_for('salvar_meta') }}"> 
+              <label for="nomeMeta">Nome da Meta:</label>
+              <input type="text" id="nomeMeta" name="nome" required placeholder="Ex: Viajar para a praia, Carro novo">
+              
+              <label for="valorMeta">Valor Total (R$):</label>
+              <input type="number" id="valorMeta" name="valor" required min="0.01" step="0.01" placeholder="Ex: 5000.00">
 
-  <div id="modal-transacao" class="modal oculto">
-    <div class="modal-content">
-      <span id="fechar-modal" class="fechar">&times;</span>
-      <h2>Nova Transação</h2>
-      <form id="form-transacao">
-        <label for="tipo">Tipo:</label>
-        <select id="tipo" required>
-          <option value="receita">Receita</option>
-          <option value="despesa">Despesa</option>
-        </select>
-
-        <label for="categoria">Categoria:</label>
-        <select id="categoria" required>
-          <option value="Alimentação">Alimentação</option>
-          <option value="Moradia">Moradia</option>
-          <option value="Transporte">Transporte</option>
-          <option value="Lazer">Lazer</option>
-        </select>
-
-        <button type="submit">Salvar</button>
-      </form>
-    </div>
-  </div>
+              <label for="dataMeta">Prazo Final:</label>
+              <input type="date" id="dataMeta" name="data_final" required>
+              
+              <label for="descricaoMeta">Descrição (Opcional):</label>
+              <textarea id="descricaoMeta" name="descricao" rows="3"></textarea>
+              
+              <button type="submit" class="btn-primary">Salvar Meta</button>
+          </form>
+      </div>
+  </div>
+  </div>
 
 <script>
 window.onload = function() {
-    // Dados vindos do Flask
-    const categorias = JSON.parse('{{ categorias | tojson | safe }}');
-    const dadosReceita = JSON.parse('{{ dados_receita | tojson | safe }}');
-    const dadosDespesa = JSON.parse('{{ dados_despesa | tojson | safe }}');
-    const dadosSaldo = JSON.parse('{{ dados_saldo | tojson | safe }}');
+    // Dados vindos do Flask
+    const categorias = JSON.parse('{{ categorias | tojson | safe }}');
+    const dadosReceita = JSON.parse('{{ dados_receita | tojson | safe }}');
+    const dadosDespesa = JSON.parse('{{ dados_despesa | tojson | safe }}');
+    const dadosSaldo = JSON.parse('{{ dados_saldo | tojson | safe }}');
 
-    const chartData = {
-        labels: categorias,
-        datasets: [
-            {
-                label: 'Receita (R$)',
-                data: dadosReceita,
-                backgroundColor: 'rgba(75, 192, 192, 0.8)', // Verde Água
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            },
-            {
-                label: 'Despesa (R$)',
-                data: dadosDespesa,
-                backgroundColor: 'rgba(255, 99, 132, 0.8)', // Vermelho
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            },
-            {
-                label: 'Saldo (R$)',
-                data: dadosSaldo,
-                backgroundColor: 'rgba(54, 162, 235, 0.8)', // Azul
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }
-        ]
-    };
+    const chartData = {
+        labels: categorias,
+        datasets: [
+            {
+                label: 'Receita (R$)',
+                data: dadosReceita,
+                backgroundColor: 'rgba(75, 192, 192, 0.8)', // Verde Água
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Despesa (R$)',
+                data: dadosDespesa,
+                backgroundColor: 'rgba(255, 99, 132, 0.8)', // Vermelho
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Saldo (R$)',
+                data: dadosSaldo,
+                backgroundColor: 'rgba(54, 162, 235, 0.8)', // Azul
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }
+        ]
+    };
 
-    const chartOptions = {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Valor (R$)'
-                }
-            },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Categoria'
-                }
-            }
-        },
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Comparativo Financeiro por Categoria'
-            }
-        }
-    };
+    const chartOptions = {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Valor (R$)'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Categoria'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Comparativo Financeiro por Categoria'
+            }
+        }
+    };
 
-    new Chart(
-        document.getElementById('financialBarChart'),
-        {
-            type: 'bar',
-            data: chartData,
-            options: chartOptions
-        }
-    );
+    // Tenta desenhar o gráfico (agora o elemento existe!)
+    const ctx = document.getElementById('financialBarChart');
+    if (ctx) { // Verifica se o elemento foi encontrado
+        new Chart(
+            ctx,
+            {
+                type: 'bar',
+                data: chartData,
+                options: chartOptions
+            }
+        );
+    }
 };
 
-// Modal Nova Transação
+// =======================================================
+// VARIÁVEIS E LISTENERS DA META (CORREÇÃO 2: ABERTURA DO MODAL)
+// =======================================================
+const botaoNovaMeta = document.querySelector('.novo-meta');
+const modalMeta = document.getElementById('modal-meta');
+const fecharMeta = document.getElementById('fechar-meta');
+const formMeta = document.getElementById('form-meta');
+const listaMetas = document.getElementById('lista-metas');
+
+
+// --- ABRIR MODAL (Adicionado o listener de clique) ---
+if (botaoNovaMeta && modalMeta) {
+    botaoNovaMeta.addEventListener('click', () => {
+        modalMeta.classList.remove('oculto');
+    });
+}
+
+// --- FECHAR MODAL ---
+if (fecharMeta) {
+    fecharMeta.addEventListener('click', () => {
+        modalMeta.classList.add('oculto');
+        formMeta.reset();
+    });
+}
+// =======================================================
+
+
+// Modal Nova Transação (Mantido o código original)
 const botaoNovaTransacao = document.querySelector('.nova-transacao');
 const modalTransacao = document.getElementById('modal-transacao');
 const fecharModal = document.getElementById('fechar-modal');
@@ -170,45 +212,122 @@ const despesasCard = document.querySelector('.cards .card:nth-child(3) p');
 let totalReceitas = 0;
 let totalDespesas = 0;
 
-botaoNovaTransacao.addEventListener('click', () => {
-  modalTransacao.classList.remove('oculto');
-});
+if(botaoNovaTransacao && modalTransacao) {
+    botaoNovaTransacao.addEventListener('click', () => {
+      modalTransacao.classList.remove('oculto');
+    });
+}
 
-fecharModal.addEventListener('click', () => {
-  modalTransacao.classList.add('oculto');
-  formTransacao.reset();
-});
+if(fecharModal && formTransacao) {
+    fecharModal.addEventListener('click', () => {
+      modalTransacao.classList.add('oculto');
+      formTransacao.reset();
+    });
+}
 
-formTransacao.addEventListener('submit', function(event) {
-  event.preventDefault();
+if(formTransacao) {
+    formTransacao.addEventListener('submit', function(event) {
+      event.preventDefault();
+    
+      const tipo = document.getElementById('tipo').value;
+      const categoria = document.getElementById('categoria').value;
+      const valor = parseFloat(document.getElementById('valor').value);
+    
+      const novaLi = document.createElement('li');
+      novaLi.textContent = `${tipo === 'receita' ? 'Receita' : 'Despesa'} - ${categoria}: R$ ${valor.toFixed(2)}`;
+    
+      if(listaTransacoes && listaTransacoes.querySelector('li')?.textContent === 'Nenhuma transação ainda.') {
+        listaTransacoes.innerHTML = ''; // Limpa a mensagem padrão
+      }
+      if (listaTransacoes) {
+        listaTransacoes.appendChild(novaLi);
+      }
+    
+      if (tipo === 'receita') {
+        totalReceitas += valor;
+      } else {
+        totalDespesas += valor;
+      }
+    
+      const saldo = totalReceitas - totalDespesas;
+      if (receitasCard && despesasCard && saldoCard) {
+        receitasCard.textContent = `R$ ${totalReceitas.toFixed(2)}`;
+        despesasCard.textContent = `R$ ${totalDespesas.toFixed(2)}`;
+        saldoCard.textContent = `R$ ${saldo.toFixed(2)}`;
+      }
+    
+      modalTransacao.classList.add('oculto');
+      formTransacao.reset();
+    });
+}
 
-  const tipo = document.getElementById('tipo').value;
-  const categoria = document.getElementById('categoria').value;
-  const valor = parseFloat(document.getElementById('valor').value);
 
-  const novaLi = document.createElement('li');
-  novaLi.textContent = `${tipo === 'receita' ? 'Receita' : 'Despesa'} - ${categoria}: R$ ${valor.toFixed(2)}`;
+// --- SUBMISSÃO DO FORMULÁRIO (AGORA COM FETCH) ---
+if (formMeta) {
+    formMeta.addEventListener('submit', function(event) {
+        event.preventDefault();
+    
+        const nome = document.getElementById('nomeMeta').value;
+        const valor = parseFloat(document.getElementById('valorMeta').value);
+        const data = document.getElementById('dataMeta').value;
+        const descricao = document.getElementById('descricaoMeta').value;
+    
+        // 1. Cria um objeto FormData para enviar os dados
+        const formData = new FormData();
+        formData.append('nome', nome);
+        formData.append('valor', valor);
+        formData.append('data_final', data);
+        formData.append('descricao', descricao);
+    
+        // 2. Envia os dados para a rota Flask usando fetch
+        fetch(formMeta.action, {
+            method: 'POST',
+            body: formData // Usa FormData
+        })
+        .then(response => response.json()) // Espera uma resposta JSON
+        .then(data => {
+            if (data.success) {
+                alert('Meta salva com sucesso!');
+                // Opcional: Para ver a nova meta sem recarregar,
+                adicionarMetaNaLista(nome, valor, data); 
+                modalMeta.classList.add('oculto');
+                formMeta.reset();
+                // Se preferir recarregar a página para buscar os dados do DB:
+                // window.location.reload(); 
+            } else {
+                alert('Erro ao salvar meta: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erro de rede ou servidor:', error);
+            alert('Erro ao conectar com o servidor.');
+        });
+    });
+}
 
-  if(listaTransacoes.querySelector('li')?.textContent === 'Nenhuma transação ainda.') {
-    listaTransacoes.innerHTML = ''; // Limpa a mensagem padrão
-  }
-  listaTransacoes.appendChild(novaLi);
+// FUNÇÃO AUXILIAR para adicionar a meta na lista sem recarregar a página (Opcional)
+function adicionarMetaNaLista(nome, valor, data) {
+    // É importante garantir que listaMetas foi definida no escopo global ou local
+    const listaMetas = document.getElementById('lista-metas'); 
+    
+    if (!listaMetas) return;
 
-  if (tipo === 'receita') {
-    totalReceitas += valor;
-  } else {
-    totalDespesas += valor;
-  }
+    const dataFormatada = new Date(data + 'T00:00:00').toLocaleDateString('pt-BR', {timeZone: 'UTC'});
+    const valorFormatado = valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
-  const saldo = totalReceitas - totalDespesas;
-
-  receitasCard.textContent = `R$ ${totalReceitas.toFixed(2)}`;
-  despesasCard.textContent = `R$ ${totalDespesas.toFixed(2)}`;
-  saldoCard.textContent = `R$ ${saldo.toFixed(2)}`;
-
-  modalTransacao.classList.add('oculto');
-  formTransacao.reset();
-});
+    const novaLi = document.createElement('li');
+    // Progresso é 0,00 pois a meta acabou de ser cadastrada
+    novaLi.innerHTML = `
+        <strong>${nome}</strong>: R$ ${valorFormatado} (Progresso: R$ 0,00 / Prazo: ${dataFormatada})
+    `;
+    
+    // Remove a mensagem padrão se ela existir
+    if (listaMetas.querySelector('li')?.textContent.includes('Nenhuma meta ainda')) {
+        listaMetas.innerHTML = ''; 
+    }
+    
+    listaMetas.appendChild(novaLi);
+}
 </script>
 
 </body>
