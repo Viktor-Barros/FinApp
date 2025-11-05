@@ -18,12 +18,14 @@ body {
 }
 
 .sidebar {
-  width: 220px;
+  width: 178px;
   background-color: #6c2594;
   color: white;
-  padding: 25px;
+  padding: 20px;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
+  height: 25.2cm;
+  top: 0;
 }
 
 .sidebar h2 {
@@ -83,11 +85,11 @@ header h1 {
   gap: 15px;
   flex-wrap: wrap;
   margin-bottom: 25px;
+  justify-content: center; /* centraliza os cards */
 }
 
 .card {
-  flex: 1;
-  min-width: 200px;
+  flex: 0 1 250px; /* define largura base de 250px, mas permite ajuste */
   background-color: white;
   padding: 18px;
   border-radius: 12px;
@@ -106,9 +108,10 @@ header h1 {
 }
 
 .card p {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
+
 
 table {
   width: 100%;
@@ -493,23 +496,23 @@ tbody tr:nth-child(even) {
 
 .chart-container {
   background-color: #fff;
-  border-radius: 16px;          /* borda um pouco mais suave */
-  padding: 25px 20px 30px 20px; /* mais espaço interno */
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12); /* sombra mais leve e suave */
+  border-radius: 16px;          
+  padding: 25px 20px 30px 20px; 
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12); 
   text-align: center;
   width: 100%;
-  max-width: 420px;             /* garante não ultrapassar 420px */
-  height: auto;                 /* altura ajusta conforme conteúdo */
+  max-width: 420px;             
+  height: auto;                 
   margin: 15px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* separa título e gráfico */
+  justify-content: space-between; 
 }
 
 .charts {
   display: flex;
   justify-content: center;
-  gap: 30px;                     /* um pouco menos de gap */
+  gap: 30px;                     
   flex-wrap: wrap;
   padding-bottom: 20px;
 }
@@ -522,7 +525,7 @@ tbody tr:nth-child(even) {
 }
 
 canvas {
-  width: 100% !important;       /* canvas ocupa toda a largura do container */
+  width: 100% !important;      
   max-width: 100%;
-  height: 260px !important;     /* ligeiramente menor para caber melhor */
+  height: 260px !important;     
 }

@@ -28,14 +28,19 @@ def cadastro():
     senha = request.form.get("senhaUsuario")
     renda = float(request.form.get("renda", 0))
     profissao = request.form.get("profissao")
-    codigo = int(request.form.get("codigo", 0))
+    codigo = request.form.get("codigo")
 
     # Verifica se o consultor existe
-    id_consultor = codigo if codigo != 0 else None
-    if id_consultor:
-        cursor.execute("SELECT id_consultor FROM TB_Consultor WHERE id_consultor = ?", (id_consultor,))
-        if cursor.fetchone() is None:
-            id_consultor = None
+    id_consultor = None
+    if codigo and codigo.isdigit():  # garante que o código é um número
+        cursor.execute("SELECT id_consultor FROM TB_Consultor WHERE id_consultor = ?", (int(codigo),))
+        resultado = cursor.fetchone()
+        if resultado:
+            id_consultor = int(codigo)
+        else:
+            flash("⚠️ Consultor não encontrado. O usuário será cadastrado sem consultor vinculado.")
+    else:
+        flash("⚠️ Código de consultor inválido ou não informado. O usuário será cadastrado sem consultor vinculado.")
 
     # Inserção na tabela TB_Usuario
     sql = """
@@ -49,7 +54,7 @@ def cadastro():
 
     cursor.close()
     conn.close()
-    flash(f"Usuário {nome} cadastrado com sucesso! ID: {id_usuario}")
+    flash(f"✅ Usuário {nome} cadastrado com sucesso! ID: {id_usuario}")
     return redirect(url_for("index"))
 
 # ----------------- Cadastro de Consultor -----------------

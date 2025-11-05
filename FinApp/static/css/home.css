@@ -25,16 +25,15 @@ body {
 }
 
 .barralateral {
-  width: 200px;
+  width: 178px;
   background-color: #6c2594;
   color: white;
   padding: 20px;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
-  height: 100vh;
-  position: fixed;
+  height: 25.2cm;
+  position: absolute;
   top: 0;
-  left: 0;
 }
 
 
